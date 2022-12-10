@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://dso4mpu3d8sv4"]
+
+[ext_resource type="Texture2D" uid="uid://dgdff3y018kon" path="res://icon.svg" id="1_7icsb"]
+[ext_resource type="Script" path="res://Scenes/world.gd" id="1_hb7a1"]
+[ext_resource type="PackedScene" uid="uid://deas3o1o3fk3h" path="res://Objects/Vehicle/Vehicle.tscn" id="2_dbv5v"]
+[ext_resource type="Script" path="res://Scripts/Player_VehicleCTRL.gd" id="4_ona5y"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ggyyo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_he3jq"]
+size = Vector2(128, 128)
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_hb7a1")
+
+[node name="Wall1" type="StaticBody2D" parent="."]
+position = Vector2(876, 478)
+physics_material_override = SubResource("PhysicsMaterial_ggyyo")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall1"]
+texture = ExtResource("1_7icsb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall1"]
+shape = SubResource("RectangleShape2D_he3jq")
+
+[node name="Wall2" type="StaticBody2D" parent="."]
+position = Vector2(188, 158)
+physics_material_override = SubResource("PhysicsMaterial_ggyyo")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall2"]
+texture = ExtResource("1_7icsb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
+shape = SubResource("RectangleShape2D_he3jq")
+
+[node name="Wall3" type="StaticBody2D" parent="."]
+position = Vector2(649, 136)
+physics_material_override = SubResource("PhysicsMaterial_ggyyo")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall3"]
+texture = ExtResource("1_7icsb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall3"]
+shape = SubResource("RectangleShape2D_he3jq")
+
+[node name="Wall4" type="StaticBody2D" parent="."]
+position = Vector2(316, 518)
+physics_material_override = SubResource("PhysicsMaterial_ggyyo")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall4"]
+texture = ExtResource("1_7icsb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall4"]
+shape = SubResource("RectangleShape2D_he3jq")
+
+[node name="Vehicle" parent="." instance=ExtResource("2_dbv5v")]
+position = Vector2(467, 320)
+
+[node name="PlayerCTRL" type="Node" parent="Vehicle"]
+script = ExtResource("4_ona5y")

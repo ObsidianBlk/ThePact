@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://fgvcef5tq8pw"]
+
+[ext_resource type="PackedScene" uid="uid://djmi5jv7c5155" path="res://Objects/TrailLine/TrailLine.tscn" id="1_5ecv6"]
+[ext_resource type="Script" path="res://Objects/Vehicle/Axel/Axel.gd" id="1_tqvqj"]
+
+[node name="Axel" type="Node2D"]
+script = ExtResource("1_tqvqj")
+
+[node name="TrailLineLeft" parent="." instance=ExtResource("1_5ecv6")]
+
+[node name="TrailLineRight" parent="." instance=ExtResource("1_5ecv6")]
