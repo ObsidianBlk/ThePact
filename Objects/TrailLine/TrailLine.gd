@@ -12,7 +12,7 @@ class_name TrailLine
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
-var _last_point : Vector2 = null
+var _last_point : Vector2 = Vector2.ZERO
 
 # ------------------------------------------------------------------------------
 # Setters / Getters
@@ -34,7 +34,7 @@ func set_decay(d : float) -> void:
 # Override Methods
 # ------------------------------------------------------------------------------
 func _ready() -> void:
-	set_notify_transform(false)
+	top_level = true
 	show_behind_parent = true
 
 
@@ -46,7 +46,20 @@ func _reset_timer() -> void:
 	timer.timeout.connect(_on_decay_timeout)
 
 # ------------------------------------------------------------------------------
-# Private Methods
+# Public Methods
+# ------------------------------------------------------------------------------
+func add_trail_point() -> void:
+	var parent = get_parent()
+	if parent and points.size() < max_length:
+		var point = parent.global_position
+		if point.distance_to(_last_point) < point_distance:
+			return
+		add_point(point)
+		if points.size() >= max_length:
+			remove_point(0)
+
+# ------------------------------------------------------------------------------
+# Handler Methods
 # ------------------------------------------------------------------------------
 func _on_decay_timeout() -> void:
 	if points.size() > 0:

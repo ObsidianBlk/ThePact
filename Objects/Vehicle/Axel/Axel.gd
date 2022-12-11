@@ -16,8 +16,11 @@ class_name Axel
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
-@onready var tll : TrailLine = $TrailLineLeft
-@onready var tlr : TrailLine = $TrailLineRight
+@onready var tll : TrailLine = $TrainLeftContainer/TrailLineLeft
+@onready var tlr : TrailLine = $TrainRightContainer/TrailLineRight
+
+@onready var ctll : Node2D = $TrainLeftContainer
+@onready var ctlr : Node2D = $TrainRightContainer
 
 # ------------------------------------------------------------------------------
 # Setters / Getters
@@ -53,10 +56,17 @@ func _ready() -> void:
 	show_behind_parent = true
 	_PositionTrails()
 
+func _process(_delta : float) -> void:
+	if tll:
+		tll.add_trail_point()
+	if tlr:
+		tlr.add_trail_point()
+
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
 func _PositionTrails() -> void:
-	if tll and tlr:
-		tll.position = Vector2.LEFT * beam_length
-		tlr.position = Vector2.RIGHT * beam_length
+	if ctll:
+		ctll.position = Vector2.LEFT * beam_length
+	if ctlr:
+		ctlr.position = Vector2.RIGHT * beam_length

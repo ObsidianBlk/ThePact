@@ -8,6 +8,12 @@ const MAX_BREAKING_TIME : float = 0.25
 const MAX_STEERING_TIME : float = 0.1
 
 # ------------------------------------------------------------------------------
+# Export Variables
+# ------------------------------------------------------------------------------
+@export_category("Player Vehicle Control")
+@export var vehicle_node_path : NodePath = ^"" :	set = set_vehicle_node_path
+
+# ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
 var _tw_throttle : Tween = null
@@ -20,45 +26,35 @@ var _steering_value : float = 0.0
 
 var _dir : Array[float] = [0.0, 0.0]
 
-var _parent : Vehicle = null
+var _vehicle : WeakRef = weakref(null)
+
+
+# ------------------------------------------------------------------------------
+# Setters
+# ------------------------------------------------------------------------------
+func set_vehicle_node_path(vnp : NodePath) -> void:
+	if vnp != vehicle_node_path:
+		vehicle_node_path = vnp
+		_CheckVehicle(true)
 
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
 func _ready() -> void:
-	if _parent == null:
-		_enter_tree()
-
-func _enter_tree() -> void:
-	var p = get_parent()
-	if p is Vehicle:
-		_parent = p
-
-func _exit_tree() -> void:
-	_parent = null
-
-func _unhandled_input(event : InputEvent) -> void:
-	var update_steering : bool = false
-	if event.is_action("v_accel"):
-		_throttle(event.get_action_strength("v_accel"))
-	elif event.is_action("v_break"):
-		_break(event.get_action_strength("v_break"))
-	elif event.is_action("v_reverse"):
-		var rev : bool = event.get_action_strength("v_reverse") > 0.1
-		if _parent:
-			_parent.set_reverse(rev)
-	elif event.is_action("v_left") or event.is_action("v_right"):
-		print("Left")
-		_dir[0] = event.get_action_strength("v_left")
-		_dir[1] = event.get_action_strength("v_right")
-		update_steering = true
-	if update_steering:
-		_steer(_dir[1] - _dir[0])
-
+	_CheckVehicle()
 
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
+func _CheckVehicle(force_update : bool = false) -> void:
+	if _vehicle.get_ref() == null or force_update:
+		if vehicle_node_path != ^"":
+			var vn = get_node_or_null(vehicle_node_path)
+			if vn is Vehicle:
+				_vehicle = weakref(vn)
+		elif _vehicle.get_ref() != null:
+			_vehicle = weakref(null)
+
 func _TimeToTarget(cur : float, targ : float, size : float, time : float) -> float:
 	if size != 0.0:
 		var dist = abs(targ - cur)
@@ -97,19 +93,45 @@ func _steer(target : float) -> void:
 
 
 # ------------------------------------------------------------------------------
+# Public Methods
+# ------------------------------------------------------------------------------
+func get_ctrl_type() -> StringName:
+	return &"PlayerVehicleControl"
+
+func handle_input(event : InputEvent) -> void:
+	var update_steering : bool = false
+	if event.is_action("v_accel"):
+		_throttle(event.get_action_strength("v_accel"))
+	elif event.is_action("v_break"):
+		_break(event.get_action_strength("v_break"))
+	elif event.is_action("v_reverse"):
+		if _vehicle.get_ref() != null:
+			if event is InputEventKey and event.is_pressed() and not event.is_echo():
+				_vehicle.get_ref().toggle_reverse()
+			else:
+				var rev : bool = event.get_action_strength("v_reverse") > 0.1
+				_vehicle.get_ref().set_reverse(rev)
+	elif event.is_action("v_left") or event.is_action("v_right"):
+		_dir[0] = event.get_action_strength("v_left")
+		_dir[1] = event.get_action_strength("v_right")
+		update_steering = true
+	if update_steering:
+		_steer(_dir[1] - _dir[0])
+
+# ------------------------------------------------------------------------------
 # Handler Methods
 # ------------------------------------------------------------------------------
 func _on_tween_throttle(val : float) -> void:
 	_throttle_value = val
-	if _parent != null:
-		_parent.set_throttle(_throttle_value)
+	if _vehicle.get_ref() != null:
+		_vehicle.get_ref().set_throttle(_throttle_value)
 
 func _on_tween_breaking(val : float) -> void:
 	_breaking_value = val
-	if _parent != null:
-		_parent.set_break(_breaking_value)
+	if _vehicle.get_ref() != null:
+		_vehicle.get_ref().set_break(_breaking_value)
 
 func _on_tween_steering(val : float) -> void:
 	_steering_value = val
-	if _parent != null:
-		_parent.set_steering(_steering_value)
+	if _vehicle.get_ref() != null:
+		_vehicle.get_ref().set_steering(_steering_value)

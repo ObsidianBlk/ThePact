@@ -11,9 +11,6 @@ height = 60.0
 motion_mode = 1
 script = ExtResource("1_2ecc7")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_pyfiq")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_06bpv")
 
@@ -22,3 +19,7 @@ position = Vector2(0, -18)
 
 [node name="AxelRearPos" type="Marker2D" parent="."]
 position = Vector2(0, 20)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+texture = ExtResource("2_pyfiq")

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 16.933333 16.933333"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14, custom)"
+   sodipodi:docname="PAC.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="8"
+     inkscape:cx="7.5"
+     inkscape:cy="26.875"
+     inkscape:window-width="1916"
+     inkscape:window-height="1033"
+     inkscape:window-x="0"
+     inkscape:window-y="18"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect7063"
+       style="fill:#483737;stroke:#28170b;stroke-width:0.238616;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke markers fill"
+       d="m 0.49630187,11.885497 c 0.14028146,-0.126892 0.73817333,-5.3e-5 1.10721723,0 0.3047138,-0.0996 0.677874,-0.159029 1.2471858,-0.103324 0.5747709,0.142069 0.581451,1.427112 0,1.50086 -0.5000375,0.03684 -0.9090948,-0.01351 -1.2293614,-0.109989 -0.3829771,2.52e-4 -0.97626831,0.164267 -1.14893108,0 -0.47349817,-0.436627 -0.47595852,-0.701597 0.0238894,-1.287547 z"
+       sodipodi:nodetypes="ccccccc" />
+    <ellipse
+       style="fill:#646419;fill-opacity:1;stroke:#4d4d29;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+       id="ellipse7009"
+       cx="5.2416363"
+       cy="10.082088"
+       rx="1.4051783"
+       ry="0.95396322" />
+    <ellipse
+       style="fill:#78781d;fill-opacity:1;stroke:#686828;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+       id="path7005"
+       cx="1.5374697"
+       cy="10.082088"
+       rx="1.4051783"
+       ry="0.95396322" />
+    <g
+       id="g4346"
+       transform="matrix(1.0420242,0,0,0.9963881,10.519321,2.3513134)">
+      <path
+         id="path3558"
+         style="fill:#8f8f22;stroke:#75751d;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke markers fill"
+         d="m 1.2016356,4.281555 c 0,1.24674 -0.65357924,2.2574225 -1.45981021,2.2574225 -0.80623099,0 -1.96576749,-1.127823 -1.45981029,-2.2574225 -0.501816,-1.2001822 0.6535793,-2.2574224 1.45981029,-2.2574224 0.80623095,0 1.45981021,1.0106825 1.45981021,2.2574224 z"
+         sodipodi:nodetypes="scccs" />
+      <path
+         id="rect3612"
+         style="fill:#6a6a19;stroke-width:0.166379;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke markers fill"
+         d="m -1.7177876,4.2631262 c 0.1670771,-0.053369 0.3364089,-0.095626 0.4824789,-0.2525164 -0.05798,0.200555 -0.03764,0.3742046 0,0.5419109 C -1.3682073,4.3593456 -1.5430151,4.3112971 -1.7177876,4.2631262 Z"
+         sodipodi:nodetypes="cccc" />
+    </g>
+    <g
+       id="g6951"
+       transform="translate(-1.618387,7.9171651)">
+      <ellipse
+         style="fill:#beb48f;fill-opacity:1;stroke:none;stroke-width:0.108663;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;paint-order:stroke markers fill"
+         id="ellipse6947"
+         cx="6.60431"
+         cy="-0.33295137"
+         rx="0.79770994"
+         ry="0.57431185" />
+      <path
+         id="ellipse6944"
+         style="fill:#8f8f22;stroke:#75751d;stroke-width:0.251784;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke markers fill"
+         d="m 6.3354285,-0.33821859 c 0.1210484,0.59090505 -0.2336616,0.53141864 -0.8426483,0.53141864 -0.6089867,0 -1.1026679,-0.24743132 -1.1026679,-0.55265331 0,-0.30522199 0.4936812,-0.55265331 1.1026679,-0.55265331 0.6089867,0 0.9580058,0.0675066 0.8426483,0.57388798 z"
+         sodipodi:nodetypes="csssc" />
+    </g>
+    <ellipse
+       style="fill:#c7c700;fill-opacity:1;stroke:#a4a449;stroke-width:0.258125;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+       id="path6216"
+       cx="1.0809066"
+       cy="7.681107"
+       rx="0.9518441"
+       ry="0.67287815" />
+    <g
+       id="g6154"
+       transform="translate(-2.4886829,-0.9184548)">
+      <path
+         id="path2044"
+         style="fill:#c7c700;fill-opacity:1;stroke:#a4a449;stroke-width:0.279757;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         d="m 4.2333333,1.0583333 c -0.876752,0 -1.7392292,0.7239768 -1.5875,1.5875 0.2464776,1.4027569 0.085796,2.2365565 0,3.175 -0.079823,0.8731107 0.710748,1.5874999 1.5875,1.5874999 0.876752,0 1.4512503,-0.7213994 1.5875,-1.5874999 0.1613819,-1.0258591 0.166825,-2.0830972 0,-3.175 -0.1324169,-0.8666948 -0.710748,-1.5875 -1.5875,-1.5875 z"
+         sodipodi:nodetypes="sssssss" />
+      <path
+         id="path2199"
+         style="fill:#8f8f22;stroke-width:0.376233;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke markers fill"
+         d="m 5.3422567,4.1075559 c 0,0.9694677 -0.6688765,1.7531561 -1.232342,1.7531561 -0.5634655,0 -0.5909558,-0.7836884 -0.5909558,-1.7531561 0,-0.9694678 0.02749,-1.7575972 0.5909558,-1.7575972 0.5634655,0 1.232342,0.7881294 1.232342,1.7575972 z"
+         sodipodi:nodetypes="sssss" />
+      <g
+         aria-label="PAC"
+         id="text4402"
+         style="font-size:2.11667px;line-height:1.25;font-family:'OpenDyslexicAlta Nerd Font';-inkscape-font-specification:'OpenDyslexicAlta Nerd Font';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         transform="matrix(0.02467555,0.86235035,-0.25739422,0.08267074,3.0538542,4.1333642)">
+        <path
+           d="m -1.6107912,0.23599609 -0.0031,0.45992094 -0.290422,0.1436607 0.2253096,-1.50482 h 0.5756763 q 0.45165275,0 0.46095452,0.12505716 0.0196371,0.25941608 -0.0196371,0.32556202 -0.18500191,0.31315966 -0.18396838,0.35553439 0,0.0950848 -0.39170794,0.0950848 z m 0.08785,-0.28422082 0.3090255,0.12505716 q 0.103353,0.04134121 0.23771196,-0.08268242 0.21910841,-0.14676129 0.1095542,-0.20670604 -0.16846546,-0.0919842 -0.13745956,-0.19223662 0.0310059,-0.10025243 -0.1229901,-0.10025243 H -1.49917 Z"
+           style="font-family:'Robot Killer';-inkscape-font-specification:'Robot Killer'"
+           id="path4454" />
+        <path
+           d="M 0.00254946,0.6091005 -0.43256677,0.4520039 -0.62480339,0.83957773 h -0.20773957 l 0.60358165,-1.56166416 0.33899791,0.0568442 0.30592494,1.50482 H 0.20822197 Z M -0.34781729,0.28147141 h 0.44958565 l -0.16536484,-0.30075729 0.03720709,-0.34623262 z"
+           style="font-family:'Robot Killer';-inkscape-font-specification:'Robot Killer'"
+           id="path4456" />
+        <path
+           d="m 1.7461149,0.10473775 0.038241,0.25941608 Q 1.7554167,0.58429577 1.5828171,0.72278882 1.4102176,0.86128187 1.1570027,0.86128187 q -0.255282,0 -0.47025629,-0.28215375 Q 0.46350388,0.28973966 0.58959457,0.12230776 L 0.71671879,-0.04615767 Q 0.91412306,-0.48127389 0.94512896,-0.51021273 1.1311644,-0.6869464 1.389547,-0.6869464 q 0.2459802,0 0.3803391,0.13745952 0.1353924,0.13642599 0.098185,0.35863498 l -0.0031,0.006201 H 1.6696336 q 0.023771,-0.16433131 -0.091984,-0.32452849 -0.116789,-0.15916366 -0.2129073,-0.01757 -0.1850019,0.27181845 -0.2997237,0.27491904 -0.11472188,0.003101 -0.14469426,0.20360545 l -0.0403077,0.26975139 q -0.0320394,0.21394076 0.0981854,0.2015384 0.20257196,-0.0206706 0.20257196,0.27905316 0,-0.0434083 0.2728519,-0.0919842 0.072347,-0.0134359 0.1436607,-0.0258383 z"
+           style="font-family:'Robot Killer';-inkscape-font-specification:'Robot Killer'"
+           id="path4458" />
+      </g>
+    </g>
+    <g
+       id="g6162"
+       transform="translate(-3.5468545,-0.96838908)">
+      <path
+         id="path4461"
+         style="fill:#c7c700;fill-opacity:1;stroke:#a4a449;stroke-width:0.279757;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         d="m 9.6894829,1.1082727 c -0.8557601,0.00223 -1.4810759,0.7444505 -1.7694167,1.5875 0.040165,1.3905316 0.035838,2.2335962 0,3.175 0.2712333,0.8997251 0.9468768,1.5917018 1.7694167,1.5874999 0.8767411,-0.00448 1.2693331,-0.7213994 1.4055831,-1.5874999 0.161382,-1.0258591 0.166825,-2.0830972 0,-3.175 -0.132417,-0.8666948 -0.528834,-1.5897859 -1.4055831,-1.5875 z"
+         sodipodi:nodetypes="sccssss" />
+      <path
+         id="path4463"
+         style="fill:#8f8f22;stroke-width:0.399628;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke markers fill"
+         d="m 11.138886,4.1574953 c 0,0.9694677 -0.754649,1.7531561 -1.3903702,1.7531561 -0.6357209,0 -0.6667364,-0.7836884 -0.6667364,-1.7531561 0,-0.9694678 0.031015,-1.7575972 0.6667364,-1.7575972 0.6357212,0 1.3903702,0.7881294 1.3903702,1.7575972 z"
+         sodipodi:nodetypes="sssss" />
+      <g
+         aria-label="PAC"
+         id="g4471"
+         style="font-size:2.11667px;line-height:1.25;font-family:'OpenDyslexicAlta Nerd Font';-inkscape-font-specification:'OpenDyslexicAlta Nerd Font';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         transform="matrix(0.04135504,0.86235035,-0.43138049,0.08267074,8.5059251,4.1833036)">
+        <path
+           d="m -1.6107912,0.23599609 -0.0031,0.45992094 -0.290422,0.1436607 0.2253096,-1.50482 h 0.5756763 q 0.45165275,0 0.46095452,0.12505716 0.0196371,0.25941608 -0.0196371,0.32556202 -0.18500191,0.31315966 -0.18396838,0.35553439 0,0.0950848 -0.39170794,0.0950848 z m 0.08785,-0.28422082 0.3090255,0.12505716 q 0.103353,0.04134121 0.23771196,-0.08268242 0.21910841,-0.14676129 0.1095542,-0.20670604 -0.16846546,-0.0919842 -0.13745956,-0.19223662 0.0310059,-0.10025243 -0.1229901,-0.10025243 H -1.49917 Z"
+           style="font-family:'Robot Killer';-inkscape-font-specification:'Robot Killer'"
+           id="path4465" />
+        <path
+           d="M 0.00254946,0.6091005 -0.43256677,0.4520039 -0.62480339,0.83957773 h -0.20773957 l 0.60358165,-1.56166416 0.33899791,0.0568442 0.30592494,1.50482 H 0.20822197 Z M -0.34781729,0.28147141 h 0.44958565 l -0.16536484,-0.30075729 0.03720709,-0.34623262 z"
+           style="font-family:'Robot Killer';-inkscape-font-specification:'Robot Killer'"
+           id="path4467" />
+        <path
+           d="m 1.7461149,0.10473775 0.038241,0.25941608 Q 1.7554167,0.58429577 1.5828171,0.72278882 1.4102176,0.86128187 1.1570027,0.86128187 q -0.255282,0 -0.47025629,-0.28215375 Q 0.46350388,0.28973966 0.58959457,0.12230776 L 0.71671879,-0.04615767 Q 0.91412306,-0.48127389 0.94512896,-0.51021273 1.1311644,-0.6869464 1.389547,-0.6869464 q 0.2459802,0 0.3803391,0.13745952 0.1353924,0.13642599 0.098185,0.35863498 l -0.0031,0.006201 H 1.6696336 q 0.023771,-0.16433131 -0.091984,-0.32452849 -0.116789,-0.15916366 -0.2129073,-0.01757 -0.1850019,0.27181845 -0.2997237,0.27491904 -0.11472188,0.003101 -0.14469426,0.20360545 l -0.0403077,0.26975139 q -0.0320394,0.21394076 0.0981854,0.2015384 0.20257196,-0.0206706 0.20257196,0.27905316 0,-0.0434083 0.2728519,-0.0919842 0.072347,-0.0134359 0.1436607,-0.0258383 z"
+           style="font-family:'Robot Killer';-inkscape-font-specification:'Robot Killer'"
+           id="path4469" />
+      </g>
+    </g>
+    <ellipse
+       style="fill:#e9ddaf;fill-opacity:1;stroke:none;stroke-width:0.296575;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;paint-order:stroke markers fill"
+       id="path4525"
+       cx="10.715625"
+       cy="2.1166666"
+       rx="1.984375"
+       ry="1.7197917" />
+  </g>
+</svg>

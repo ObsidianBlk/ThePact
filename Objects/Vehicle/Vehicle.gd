@@ -60,14 +60,8 @@ func set_engine_reverse_multiplier(m : float) -> void:
 # ------------------------------------------------------------------------------
 
 func _physics_process(delta : float) -> void:
-	var accel_dir = 1.0
-	var power = _engine_power
-	if _breaking_power > 0.0:
-		if not _reverse:
-			accel_dir = -1.0
-		power = _breaking_power
-	elif _reverse:
-		accel_dir = -1.0
+	var accel_dir = -1.0 if _reverse else 1.0
+	var power = -_breaking_power if _breaking_power > 0.0 else _engine_power
 	
 	_accel = -transform.y * power * accel_dir
 	_ApplyFriction()
@@ -102,11 +96,10 @@ func _CalculateHeading(delta : float) -> void:
 	var heading : Vector2 = (fore_wheel - rear_wheel).normalized()
 	var traction : float = _GenerateTraction()
 	var d : float = heading.dot(velocity.normalized())
-	if d > 0 and not (_reverse or _breaking_power > 0.0):
+	if d > 0 and not _reverse:
 		velocity = velocity.lerp(heading * velocity.length(), traction)
-	elif d < 0 and (_reverse or _breaking_power > 0.0):
+	elif d < 0 and _reverse:
 		velocity = velocity.lerp(-heading * velocity.length(), traction)
-	#rotation = heading.angle()
 	rotation = (heading.angle() + deg_to_rad(90.0))
 
 func _ApplyFriction() -> void:
@@ -194,7 +187,7 @@ func toggle_reverse() -> void:
 func get_throttle() -> float:
 	var emax : float = max_engine_power * (engine_reverse_multiplier if _reverse else 1.0)
 	if emax != 0.0:
-		return _breaking_power / emax
+		return _engine_power / emax
 	return 0.0
 
 func set_throttle(v : float) -> void:
