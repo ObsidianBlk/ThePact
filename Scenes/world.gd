@@ -4,5 +4,10 @@ extends Node2D
 const AXEL : PackedScene = preload("res://Objects/Vehicle/Axel/Axel.tscn")
 
 func _ready() -> void:
-	$Vehicle.set_forward_axel(AXEL.instantiate())
-	$Vehicle.set_rear_axel(AXEL.instantiate())
+	var axel : Axel = AXEL.instantiate()
+	axel.beam_length = 20
+	$Vehicle.set_forward_axel(axel)
+	
+	axel = AXEL.instantiate()
+	axel.beam_length = 20
+	$Vehicle.set_rear_axel(axel)

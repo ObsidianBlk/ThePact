@@ -1,13 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://deas3o1o3fk3h"]
+[gd_scene load_steps=5 format=3 uid="uid://deas3o1o3fk3h"]
 
 [ext_resource type="Script" path="res://Objects/Vehicle/Vehicle.gd" id="1_2ecc7"]
 [ext_resource type="Texture2D" uid="uid://stwtg5cc8o8j" path="res://Assets/Graphics/Vehicle/Car-Yellow.png" id="2_pyfiq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_06bpv"]
-radius = 16.0
-height = 60.0
+radius = 28.0
+height = 120.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kceeh"]
+size = Vector2(128, 32)
 
 [node name="Vehicle" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_2ecc7")
 
@@ -15,11 +20,26 @@ script = ExtResource("1_2ecc7")
 shape = SubResource("CapsuleShape2D_06bpv")
 
 [node name="AxelForePos" type="Marker2D" parent="."]
-position = Vector2(0, -18)
+position = Vector2(0, -38)
 
 [node name="AxelRearPos" type="Marker2D" parent="."]
-position = Vector2(0, 20)
+position = Vector2(0, 39)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
+scale = Vector2(2, 2)
 texture = ExtResource("2_pyfiq")
+
+[node name="InteractableArea" type="Area2D" parent="."]
+position = Vector2(0, 14)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableArea"]
+shape = SubResource("RectangleShape2D_kceeh")
+
+[node name="ExitPoint" type="Marker2D" parent="."]
+position = Vector2(-61, 14)
+
+[connection signal="body_entered" from="InteractableArea" to="." method="_on_interactable_area_body_entered"]
+[connection signal="body_exited" from="InteractableArea" to="." method="_on_interactable_area_body_exited"]

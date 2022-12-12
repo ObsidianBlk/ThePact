@@ -36,6 +36,7 @@ func set_decay(d : float) -> void:
 func _ready() -> void:
 	top_level = true
 	show_behind_parent = true
+	_reset_timer()
 
 
 # ------------------------------------------------------------------------------

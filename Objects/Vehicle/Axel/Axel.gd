@@ -12,6 +12,7 @@ class_name Axel
 @export_range(0.0, 1.0) var traction_fast : float = 0.1 :		set = set_traction_fast
 @export_range(0.0, 1.0) var friction : float = 0.9 :			set = set_friction
 @export_range(0.0, 1.0) var drag : float = 0.0015 :				set = set_drag
+@export var enable_trails : bool = true :						set = set_enable_trails
 
 # ------------------------------------------------------------------------------
 # Onready Variables
@@ -49,6 +50,15 @@ func set_friction(f : float) -> void:
 func set_drag(d : float) -> void:
 	drag = max(0.0, min(1.0, d))
 
+func set_enable_trails(e : bool) -> void:
+	if e != enable_trails:
+		enable_trails = e
+		if enable_trails:
+			if tll:
+				tll.clear_points()
+			if tlr:
+				tlr.clear_points()
+
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
@@ -57,6 +67,9 @@ func _ready() -> void:
 	_PositionTrails()
 
 func _process(_delta : float) -> void:
+	if not enable_trails:
+		return
+	
 	if tll:
 		tll.add_trail_point()
 	if tlr:

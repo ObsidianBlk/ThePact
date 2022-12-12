@@ -1,6 +1,13 @@
 extends Node
 
 # ------------------------------------------------------------------------------
+# Signals
+# ------------------------------------------------------------------------------
+signal control_requested()
+signal control_relinquished(msg)
+signal node_focus_requested(focus)
+
+# ------------------------------------------------------------------------------
 # Constants
 # ------------------------------------------------------------------------------
 const MAX_THROTTLE_TIME : float = 0.1
@@ -11,7 +18,7 @@ const MAX_STEERING_TIME : float = 0.1
 # Export Variables
 # ------------------------------------------------------------------------------
 @export_category("Player Vehicle Control")
-@export var vehicle_node_path : NodePath = ^"" :	set = set_vehicle_node_path
+@export var vehicle_group : String = "" :			set = set_vehicle_group
 
 # ------------------------------------------------------------------------------
 # Variables
@@ -28,13 +35,15 @@ var _dir : Array[float] = [0.0, 0.0]
 
 var _vehicle : WeakRef = weakref(null)
 
+var _exit_timer : SceneTreeTimer = null
+
 
 # ------------------------------------------------------------------------------
 # Setters
 # ------------------------------------------------------------------------------
-func set_vehicle_node_path(vnp : NodePath) -> void:
-	if vnp != vehicle_node_path:
-		vehicle_node_path = vnp
+func set_vehicle_group(g : String) -> void:
+	if vehicle_group != g:
+		vehicle_group = g
 		_CheckVehicle(true)
 
 # ------------------------------------------------------------------------------
@@ -47,13 +56,21 @@ func _ready() -> void:
 # Private Methods
 # ------------------------------------------------------------------------------
 func _CheckVehicle(force_update : bool = false) -> void:
+	var clear_vehicle : bool = true
 	if _vehicle.get_ref() == null or force_update:
-		if vehicle_node_path != ^"":
-			var vn = get_node_or_null(vehicle_node_path)
-			if vn is Vehicle:
-				_vehicle = weakref(vn)
-		elif _vehicle.get_ref() != null:
-			_vehicle = weakref(null)
+		if vehicle_group != "":
+			if is_inside_tree():
+				var varr : Array = get_tree().get_nodes_in_group(vehicle_group)
+				for vn in varr:
+					if vn is Vehicle and _vehicle.get_ref() != vn:
+						_vehicle = weakref(vn)
+						if vn.has_signal(&"enter_vehicle_requested"):
+							vn.connect(&"enter_vehicle_requested", _on_enter_vehicle_requested)
+						node_focus_requested.emit(vn)
+						clear_vehicle = false
+						break
+	if _vehicle.get_ref() != null and clear_vehicle:
+		_vehicle = weakref(null)
 
 func _TimeToTarget(cur : float, targ : float, size : float, time : float) -> float:
 	if size != 0.0:
@@ -98,6 +115,14 @@ func _steer(target : float) -> void:
 func get_ctrl_type() -> StringName:
 	return &"PlayerVehicleControl"
 
+func enter(msg : Dictionary = {}) -> void:
+	var vehicle = _vehicle.get_ref()
+	if vehicle != null:
+		node_focus_requested.emit(vehicle)
+
+func exit() -> void:
+	pass
+
 func handle_input(event : InputEvent) -> void:
 	var update_steering : bool = false
 	if event.is_action("v_accel"):
@@ -115,6 +140,14 @@ func handle_input(event : InputEvent) -> void:
 		_dir[0] = event.get_action_strength("v_left")
 		_dir[1] = event.get_action_strength("v_right")
 		update_steering = true
+	elif event.is_action("interact_alt", true):
+		var pressed = event.is_pressed()
+		if pressed and not event.is_echo() and _exit_timer == null:
+			_exit_timer = get_tree().create_timer(1.0)
+			_exit_timer.timeout.connect(_on_exit_vehicle_requested)
+		elif not pressed and _exit_timer != null:
+			_exit_timer.timeout.disconnect(_on_exit_vehicle_requested)
+			_exit_timer = null
 	if update_steering:
 		_steer(_dir[1] - _dir[0])
 
@@ -135,3 +168,14 @@ func _on_tween_steering(val : float) -> void:
 	_steering_value = val
 	if _vehicle.get_ref() != null:
 		_vehicle.get_ref().set_steering(_steering_value)
+
+func _on_enter_vehicle_requested() -> void:
+	control_requested.emit()
+
+func _on_exit_vehicle_requested() -> void:
+	var pos : Vector2 = Vector2.ZERO
+	if _vehicle.get_ref() != null:
+		pos = _vehicle.get_ref().get_exit_point()
+	control_relinquished.emit({
+		&"spawn_point": pos
+	})

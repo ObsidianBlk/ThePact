@@ -8,6 +8,7 @@ signal reversed(rev)
 signal throttle_changed(throttle)
 signal steering_changed(steering_angle)
 signal breaking()
+signal enter_vehicle_requested()
 
 # ------------------------------------------------------------------------------
 # Constants
@@ -28,9 +29,7 @@ const TRACTION_FAST_SPEED : float = 400.0
 var _axel_fore : Axel = null
 var _axel_rear : Axel = null
 
-# ------------------------------------------------------------------------------
-# Onready Variables
-# ------------------------------------------------------------------------------
+var _speed : float = 0.0
 var _accel : Vector2 = Vector2.ZERO
 
 var _max_breaking_power : float = 0.0
@@ -43,6 +42,8 @@ var _steering_angle = 0.0
 var _engine_power : float = 0.0
 var _breaking_power : float = 0.0
 var _reverse : bool = false
+
+var _enter_vehicle_timer : SceneTreeTimer = null
 
 # ------------------------------------------------------------------------------
 # Setters / Getters
@@ -71,17 +72,21 @@ func _physics_process(delta : float) -> void:
 	move_and_slide()
 	if get_slide_collision_count() > 0:
 		velocity = Vector2.ZERO
+	_speed = velocity.length()
+	if _axel_fore:
+		_axel_fore.enable_trails = _speed > TRACTION_SLOW_SPEED
+	if _axel_rear:
+		_axel_rear.enable_trails = _speed > TRACTION_SLOW_SPEED
 
 # ------------------------------------------------------------------------------
 # Private Methods
 # ------------------------------------------------------------------------------
 func _GenerateTraction() -> float:
 	var traction : float = 1.0
-	var speed : float = velocity.length()
-	if speed >= TRACTION_FAST_SPEED:
+	if _speed >= TRACTION_FAST_SPEED:
 		traction = _traction_fast
-	elif speed >= TRACTION_SLOW_SPEED:
-		var d : float = (speed - TRACTION_SLOW_SPEED) / (TRACTION_FAST_SPEED - TRACTION_SLOW_SPEED)
+	elif _speed >= TRACTION_SLOW_SPEED:
+		var d : float = (_speed - TRACTION_SLOW_SPEED) / (TRACTION_FAST_SPEED - TRACTION_SLOW_SPEED)
 		traction = _traction_slow + ((_traction_fast - _traction_slow) * d)
 	return traction
 
@@ -97,21 +102,20 @@ func _CalculateHeading(delta : float) -> void:
 	var traction : float = _GenerateTraction()
 	var d : float = heading.dot(velocity.normalized())
 	if d > 0 and not _reverse:
-		velocity = velocity.lerp(heading * velocity.length(), traction)
+		velocity = velocity.lerp(heading * _speed, traction)
 	elif d < 0 and _reverse:
-		velocity = velocity.lerp(-heading * velocity.length(), traction)
+		velocity = velocity.lerp(-heading * _speed, traction)
 	rotation = (heading.angle() + deg_to_rad(90.0))
 
 func _ApplyFriction() -> void:
-	var speed : float = velocity.length()
-	if speed < 5.0:
+	if _speed < 5.0:
 		velocity = Vector2.ZERO
-		speed = 0.0
-	if _breaking_power > 0.0 and speed <= 0.0:
+		_speed = 0.0
+	if _breaking_power > 0.0 and _speed <= 0.0:
 		_accel = Vector2.ZERO
 	else:
 		var force_fric : Vector2 = (-_friction) * velocity
-		var force_drag : Vector2 = (-_drag) * speed * velocity
+		var force_drag : Vector2 = (-_drag) * _speed * velocity
 		_accel += force_fric + force_drag
 
 func _UpdateAxelValues() -> void:
@@ -131,6 +135,11 @@ func _UpdateAxelValues() -> void:
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
+func get_exit_point() -> Vector2:
+	if $ExitPoint:
+		return $ExitPoint.global_position
+	return Vector2.ZERO
+
 func has_forward_axel() -> bool:
 	return _axel_fore != null
 
@@ -201,3 +210,31 @@ func set_break(v : float) -> void:
 	_breaking_power = _max_breaking_power * v
 	if _breaking_power > 0.0:
 		breaking.emit()
+
+# ------------------------------------------------------------------------------
+# Handler Methods
+# ------------------------------------------------------------------------------
+func _on_interactable_area_body_entered(body : Node2D) -> void:
+	if body.has_signal(&"alt_interacting"):
+		if not body.is_connected(&"alt_interacting", _on_enter_requested):
+			body.connect(&"alt_interacting", _on_enter_requested)
+
+
+func _on_interactable_area_body_exited(body : Node2D) -> void:
+	if body.has_signal(&"alt_interacting"):
+		if body.is_connected(&"alt_interacting", _on_enter_requested):
+			body.disconnect(&"alt_interacting", _on_enter_requested)
+
+func _on_enter_requested(active : bool) -> void:
+	if active and _enter_vehicle_timer == null:
+		_enter_vehicle_timer = get_tree().create_timer(1.0)
+		_enter_vehicle_timer.timeout.connect(_on_enter_request_triggered)
+	elif not active and _enter_vehicle_timer != null:
+		_enter_vehicle_timer.timeout.disconnect(_on_enter_request_triggered)
+		_enter_vehicle_timer = null
+
+func _on_enter_request_triggered() -> void:
+	_enter_vehicle_timer = null
+	enter_vehicle_requested.emit()
+
+

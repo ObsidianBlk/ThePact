@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://bdhin0l46u3y2"]
+[gd_scene load_steps=11 format=3 uid="uid://bdhin0l46u3y2"]
 
 [ext_resource type="Texture2D" uid="uid://dgdff3y018kon" path="res://icon.svg" id="1_7icsb"]
 [ext_resource type="Script" path="res://Scenes/world.gd" id="1_hb7a1"]
 [ext_resource type="Script" path="res://Scripts/PlayerCTRL/Player_VehicleCTRL.gd" id="2_5w02c"]
 [ext_resource type="PackedScene" uid="uid://deas3o1o3fk3h" path="res://Objects/Vehicle/Vehicle.tscn" id="2_dbv5v"]
 [ext_resource type="Script" path="res://Scripts/PlayerCTRL/PlayerCTRL.gd" id="2_h6p8k"]
+[ext_resource type="Script" path="res://Scripts/PlayerCTRL/Player_CharacterCTRL.gd" id="4_tfp5n"]
+[ext_resource type="PackedScene" uid="uid://beh33s55iiudq" path="res://Objects/PAC/PAC.tscn" id="7_xf4kc"]
+[ext_resource type="Script" path="res://Scripts/FollowCamera2D.gd" id="8_feq8t"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ggyyo"]
 
@@ -17,10 +20,15 @@ script = ExtResource("1_hb7a1")
 [node name="PlayerCTRL" type="Node" parent="."]
 script = ExtResource("2_h6p8k")
 vehicle_ctrl_path = NodePath("VehicleCtrl")
+character_ctrl_path = NodePath("CharacterCtrl")
 
 [node name="VehicleCtrl" type="Node" parent="PlayerCTRL"]
 script = ExtResource("2_5w02c")
-vehicle_node_path = NodePath("../../Vehicle")
+vehicle_group = "player_vehicle"
+
+[node name="CharacterCtrl" type="Node" parent="PlayerCTRL"]
+script = ExtResource("4_tfp5n")
+character_group = "player_character"
 
 [node name="Wall1" type="StaticBody2D" parent="."]
 position = Vector2(876, 478)
@@ -62,5 +70,14 @@ texture = ExtResource("1_7icsb")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall4"]
 shape = SubResource("RectangleShape2D_he3jq")
 
-[node name="Vehicle" parent="." instance=ExtResource("2_dbv5v")]
+[node name="Vehicle" parent="." groups=["player_vehicle"] instance=ExtResource("2_dbv5v")]
 position = Vector2(467, 320)
+
+[node name="PAC" parent="." groups=["player_character"] instance=ExtResource("7_xf4kc")]
+position = Vector2(227, 305)
+
+[node name="FollowCamera2D" type="Camera2D" parent="."]
+current = true
+script = ExtResource("8_feq8t")
+
+[connection signal="node_focus_requested" from="PlayerCTRL" to="FollowCamera2D" method="set_focus_node"]
