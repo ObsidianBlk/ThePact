@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://spx1hy0qa1qx"]
+
+[ext_resource type="Script" path="res://Objects/BlendMap/BlendMap.gd" id="1_5bksk"]
+
+[node name="BlendMap" type="Node2D"]
+script = ExtResource("1_5bksk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
