@@ -1,8 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://spx1hy0qa1qx"]
+[gd_scene load_steps=8 format=3 uid="uid://spx1hy0qa1qx"]
 
-[ext_resource type="Script" path="res://Objects/BlendMap/BlendMap.gd" id="1_5bksk"]
+[ext_resource type="Shader" path="res://Objects/BlendMap/BlendMap.gdshader" id="1_du7op"]
+[ext_resource type="Script" path="res://Objects/BlendMap/BlendMap.gd" id="1_h2q3l"]
+[ext_resource type="Texture2D" uid="uid://30va5n8pce33" path="res://Assets/Graphics/Textures/Green.png" id="3_jkqf0"]
+[ext_resource type="Texture2D" uid="uid://dsjctfdcr2t0j" path="res://Assets/Graphics/Textures/DirtA.png" id="3_liuo6"]
+[ext_resource type="Texture2D" uid="uid://bscht6h3p7du4" path="res://Assets/Graphics/Textures/Grey.png" id="4_ymx3e"]
+[ext_resource type="Texture2D" uid="uid://dhsrxohc24d3f" path="res://Assets/Graphics/Textures/GrassA.png" id="6_b7twu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_canqf"]
+resource_local_to_scene = true
+shader = ExtResource("1_du7op")
+shader_parameter/preserve_alpha = true
+shader_parameter/textureA = ExtResource("3_liuo6")
+shader_parameter/textureB = ExtResource("4_ymx3e")
+shader_parameter/textureC = ExtResource("3_jkqf0")
+shader_parameter/textureD = ExtResource("6_b7twu")
+shader_parameter/texture_scale = 10.0
 
 [node name="BlendMap" type="Node2D"]
-script = ExtResource("1_5bksk")
+script = ExtResource("1_h2q3l")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_canqf")
