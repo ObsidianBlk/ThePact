@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bdhin0l46u3y2"]
+[gd_scene load_steps=22 format=3 uid="uid://bdhin0l46u3y2"]
 
 [ext_resource type="Texture2D" uid="uid://dgdff3y018kon" path="res://icon.svg" id="1_7icsb"]
 [ext_resource type="Script" path="res://Scenes/world.gd" id="1_hb7a1"]
@@ -16,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://30va5n8pce33" path="res://Assets/Graphics/Textures/Green.png" id="12_fdst8"]
 [ext_resource type="Texture2D" uid="uid://dlwcmnu0r3ndt" path="res://Assets/Graphics/Textures/Green2.png" id="13_s05dr"]
 [ext_resource type="Texture2D" uid="uid://b1bebrs7qpm3y" path="res://Assets/Graphics/MapMasks/Map_Mask_Test.png" id="14_a21bh"]
+[ext_resource type="Script" path="res://Scripts/PathGraph/PathGraph2D.gd" id="17_goncw"]
+[ext_resource type="Script" path="res://Scripts/PathGraph/PathGraphNode.gd" id="18_qgl07"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ggyyo"]
 
@@ -124,9 +126,28 @@ current = true
 script = ExtResource("8_feq8t")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rx4an")
+
+[node name="PathGraph2D" type="Node2D" parent="."]
+script = ExtResource("17_goncw")
+
+[node name="PathGraphNode" type="Node2D" parent="PathGraph2D"]
+position = Vector2(-156, 92)
+script = ExtResource("18_qgl07")
+connections = [NodePath("../PathGraphNode2"), NodePath("../PathGraphNode3")]
+
+[node name="PathGraphNode2" type="Node2D" parent="PathGraph2D"]
+position = Vector2(-20, 269)
+script = ExtResource("18_qgl07")
+connections = []
+
+[node name="PathGraphNode3" type="Node2D" parent="PathGraph2D"]
+position = Vector2(-210, 276)
+script = ExtResource("18_qgl07")
+connections = []
 
 [connection signal="node_focus_requested" from="PlayerCTRL" to="FollowCamera2D" method="set_focus_node"]

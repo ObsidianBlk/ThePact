@@ -29,6 +29,16 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Objects/PAC/PAC.gd"
 }, {
+"base": "Node2D",
+"class": &"PathGraph2D",
+"language": &"GDScript",
+"path": "res://Scripts/PathGraph/PathGraph2D.gd"
+}, {
+"base": "Node2D",
+"class": &"PathGraphNode",
+"language": &"GDScript",
+"path": "res://Scripts/PathGraph/PathGraphNode.gd"
+}, {
 "base": "Line2D",
 "class": &"TrailLine",
 "language": &"GDScript",
@@ -44,6 +54,8 @@ _global_script_class_icons={
 "BlendMap": "",
 "FollowCamera2D": "",
 "PAC": "",
+"PathGraph2D": "",
+"PathGraphNode": "",
 "TrailLine": "",
 "Vehicle": ""
 }
