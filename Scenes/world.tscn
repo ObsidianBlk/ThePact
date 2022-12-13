@@ -1,21 +1,63 @@
-[gd_scene load_steps=11 format=3 uid="uid://bdhin0l46u3y2"]
+[gd_scene load_steps=20 format=3 uid="uid://bdhin0l46u3y2"]
 
 [ext_resource type="Texture2D" uid="uid://dgdff3y018kon" path="res://icon.svg" id="1_7icsb"]
 [ext_resource type="Script" path="res://Scenes/world.gd" id="1_hb7a1"]
 [ext_resource type="Script" path="res://Scripts/PlayerCTRL/Player_VehicleCTRL.gd" id="2_5w02c"]
 [ext_resource type="PackedScene" uid="uid://deas3o1o3fk3h" path="res://Objects/Vehicle/Vehicle.tscn" id="2_dbv5v"]
 [ext_resource type="Script" path="res://Scripts/PlayerCTRL/PlayerCTRL.gd" id="2_h6p8k"]
+[ext_resource type="Texture2D" uid="uid://dsjctfdcr2t0j" path="res://Assets/Graphics/Textures/DirtA.png" id="3_7njj3"]
 [ext_resource type="Script" path="res://Scripts/PlayerCTRL/Player_CharacterCTRL.gd" id="4_tfp5n"]
+[ext_resource type="Texture2D" uid="uid://dhsrxohc24d3f" path="res://Assets/Graphics/Textures/GrassA.png" id="6_vtcr2"]
 [ext_resource type="PackedScene" uid="uid://beh33s55iiudq" path="res://Objects/PAC/PAC.tscn" id="7_xf4kc"]
 [ext_resource type="Script" path="res://Scripts/FollowCamera2D.gd" id="8_feq8t"]
+[ext_resource type="PackedScene" uid="uid://spx1hy0qa1qx" path="res://Objects/BlendMap/BlendMap.tscn" id="9_h2v12"]
+[ext_resource type="Texture2D" uid="uid://ccquley82tu6h" path="res://Assets/Graphics/Textures/Brown.png" id="10_liieh"]
+[ext_resource type="Texture2D" uid="uid://bscht6h3p7du4" path="res://Assets/Graphics/Textures/Grey.png" id="11_gulmi"]
+[ext_resource type="Texture2D" uid="uid://30va5n8pce33" path="res://Assets/Graphics/Textures/Green.png" id="12_fdst8"]
+[ext_resource type="Texture2D" uid="uid://dlwcmnu0r3ndt" path="res://Assets/Graphics/Textures/Green2.png" id="13_s05dr"]
+[ext_resource type="Texture2D" uid="uid://b1bebrs7qpm3y" path="res://Assets/Graphics/MapMasks/Map_Mask_Test.png" id="14_a21bh"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ggyyo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_he3jq"]
 size = Vector2(128, 128)
 
+[sub_resource type="Environment" id="Environment_rx4an"]
+background_mode = 3
+background_canvas_max_layer = 2
+glow_enabled = true
+glow_normalized = true
+glow_bloom = 0.26
+glow_blend_mode = 1
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_hb7a1")
+
+[node name="BlendMap" parent="." instance=ExtResource("9_h2v12")]
+texture_scale = 40.0
+texture_a = ExtResource("3_7njj3")
+texture_b = ExtResource("11_gulmi")
+texture_c = ExtResource("12_fdst8")
+texture_d = ExtResource("6_vtcr2")
+blend_texture = ExtResource("14_a21bh")
+
+[node name="BlendMap2" parent="." instance=ExtResource("9_h2v12")]
+position = Vector2(-2045, 0)
+texture_scale = 10.0
+texture_a = ExtResource("10_liieh")
+texture_b = ExtResource("11_gulmi")
+texture_c = ExtResource("12_fdst8")
+texture_d = ExtResource("13_s05dr")
+blend_texture = ExtResource("14_a21bh")
+
+[node name="BlendMap3" parent="." instance=ExtResource("9_h2v12")]
+position = Vector2(-4095, 0)
+texture_scale = 10.0
+texture_a = ExtResource("10_liieh")
+texture_b = ExtResource("11_gulmi")
+texture_c = ExtResource("12_fdst8")
+texture_d = ExtResource("13_s05dr")
+blend_texture = ExtResource("14_a21bh")
 
 [node name="PlayerCTRL" type="Node" parent="."]
 script = ExtResource("2_h6p8k")
@@ -45,6 +87,7 @@ position = Vector2(188, 158)
 physics_material_override = SubResource("PhysicsMaterial_ggyyo")
 
 [node name="Sprite2D" type="Sprite2D" parent="Wall2"]
+modulate = Color(8, 8, 8, 1)
 texture = ExtResource("1_7icsb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
@@ -79,5 +122,11 @@ position = Vector2(227, 305)
 [node name="FollowCamera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource("8_feq8t")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rx4an")
 
 [connection signal="node_focus_requested" from="PlayerCTRL" to="FollowCamera2D" method="set_focus_node"]

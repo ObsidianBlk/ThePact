@@ -46,6 +46,12 @@ var _reverse : bool = false
 var _enter_vehicle_timer : SceneTreeTimer = null
 
 # ------------------------------------------------------------------------------
+# Onready Variables
+# ------------------------------------------------------------------------------
+@onready var headlights : Sprite2D = $Headlights
+@onready var headlights_light : PointLight2D = $PointLight2D
+
+# ------------------------------------------------------------------------------
 # Setters / Getters
 # ------------------------------------------------------------------------------
 func set_max_engine_power(p : float) -> void:
@@ -210,6 +216,11 @@ func set_break(v : float) -> void:
 	_breaking_power = _max_breaking_power * v
 	if _breaking_power > 0.0:
 		breaking.emit()
+
+func toggle_headlights() -> void:
+	if headlights and headlights_light:
+		headlights.visible = not headlights.visible
+		headlights_light.visible = headlights.visible
 
 # ------------------------------------------------------------------------------
 # Handler Methods

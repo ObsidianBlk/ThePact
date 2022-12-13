@@ -148,6 +148,8 @@ func handle_input(event : InputEvent) -> void:
 		elif not pressed and _exit_timer != null:
 			_exit_timer.timeout.disconnect(_on_exit_vehicle_requested)
 			_exit_timer = null
+			if _vehicle.get_ref() != null:
+				_vehicle.get_ref().toggle_headlights()
 	if update_steering:
 		_steer(_dir[1] - _dir[0])
 

@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://deas3o1o3fk3h"]
+[gd_scene load_steps=7 format=3 uid="uid://deas3o1o3fk3h"]
 
 [ext_resource type="Script" path="res://Objects/Vehicle/Vehicle.gd" id="1_2ecc7"]
-[ext_resource type="Texture2D" uid="uid://stwtg5cc8o8j" path="res://Assets/Graphics/Vehicle/Car-Yellow.png" id="2_pyfiq"]
+[ext_resource type="Texture2D" uid="uid://wfd3o40dpdte" path="res://Assets/Graphics/Vehicle/Vehicle.svg" id="2_yor2x"]
+[ext_resource type="Texture2D" uid="uid://dqpx8y3e66tki" path="res://Assets/Graphics/Vehicle/Headlights.svg" id="3_s4b74"]
+[ext_resource type="Texture2D" uid="uid://cef8qrjdqoka8" path="res://Assets/Graphics/Vehicle/Headlights_Lights.png" id="4_6c002"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_06bpv"]
 radius = 28.0
@@ -27,8 +29,14 @@ position = Vector2(0, 39)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
-scale = Vector2(2, 2)
-texture = ExtResource("2_pyfiq")
+texture = ExtResource("2_yor2x")
+
+[node name="Headlights" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(3, 3, 3, 1)
+z_index = 1
+position = Vector2(0, -51)
+texture = ExtResource("3_s4b74")
 
 [node name="InteractableArea" type="Area2D" parent="."]
 position = Vector2(0, 14)
@@ -40,6 +48,11 @@ shape = SubResource("RectangleShape2D_kceeh")
 
 [node name="ExitPoint" type="Marker2D" parent="."]
 position = Vector2(-61, 14)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(0, -101)
+texture = ExtResource("4_6c002")
 
 [connection signal="body_entered" from="InteractableArea" to="." method="_on_interactable_area_body_entered"]
 [connection signal="body_exited" from="InteractableArea" to="." method="_on_interactable_area_body_exited"]
