@@ -16,8 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://30va5n8pce33" path="res://Assets/Graphics/Textures/Green.png" id="12_fdst8"]
 [ext_resource type="Texture2D" uid="uid://dlwcmnu0r3ndt" path="res://Assets/Graphics/Textures/Green2.png" id="13_s05dr"]
 [ext_resource type="Texture2D" uid="uid://b1bebrs7qpm3y" path="res://Assets/Graphics/MapMasks/Map_Mask_Test.png" id="14_a21bh"]
-[ext_resource type="Script" path="res://Scripts/PathGraph/PathGraph2D.gd" id="17_goncw"]
-[ext_resource type="Script" path="res://Scripts/PathGraph/PathGraphNode.gd" id="18_qgl07"]
+[ext_resource type="PackedScene" uid="uid://bkl6n51syrbgl" path="res://Objects/Ghost/Ghost.tscn" id="14_byu7g"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ggyyo"]
 
@@ -31,6 +30,11 @@ glow_enabled = true
 glow_normalized = true
 glow_bloom = 0.26
 glow_blend_mode = 1
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_d8gq8"]
+vertices = PackedVector2Array(247, 687, -426, 702, -363, -91, 93, 239, 285, -112, 277, 60, 93, 55, 212, 246)
+polygons = [PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 4, 5, 6), PackedInt32Array(3, 7, 0), PackedInt32Array(2, 6, 3)]
+outlines = [PackedVector2Array(-363, -91, -426, 702, 247, 687, 212, 246, 93, 239, 93, 55, 277, 60, 285, -112)]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_hb7a1")
@@ -115,10 +119,13 @@ texture = ExtResource("1_7icsb")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall4"]
 shape = SubResource("RectangleShape2D_he3jq")
 
-[node name="Vehicle" parent="." groups=["player_vehicle"] instance=ExtResource("2_dbv5v")]
+[node name="Ghost" parent="." instance=ExtResource("14_byu7g")]
+target_group = &"player_focus"
+
+[node name="Vehicle" parent="." groups=["player", "player_vehicle"] instance=ExtResource("2_dbv5v")]
 position = Vector2(467, 320)
 
-[node name="PAC" parent="." groups=["player_character"] instance=ExtResource("7_xf4kc")]
+[node name="PAC" parent="." groups=["player", "player_character"] instance=ExtResource("7_xf4kc")]
 position = Vector2(227, 305)
 
 [node name="FollowCamera2D" type="Camera2D" parent="."]
@@ -132,22 +139,7 @@ color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rx4an")
 
-[node name="PathGraph2D" type="Node2D" parent="."]
-script = ExtResource("17_goncw")
-
-[node name="PathGraphNode" type="Node2D" parent="PathGraph2D"]
-position = Vector2(-156, 92)
-script = ExtResource("18_qgl07")
-connections = [NodePath("../PathGraphNode2"), NodePath("../PathGraphNode3")]
-
-[node name="PathGraphNode2" type="Node2D" parent="PathGraph2D"]
-position = Vector2(-20, 269)
-script = ExtResource("18_qgl07")
-connections = []
-
-[node name="PathGraphNode3" type="Node2D" parent="PathGraph2D"]
-position = Vector2(-210, 276)
-script = ExtResource("18_qgl07")
-connections = []
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navpoly = SubResource("NavigationPolygon_d8gq8")
 
 [connection signal="node_focus_requested" from="PlayerCTRL" to="FollowCamera2D" method="set_focus_node"]

@@ -118,10 +118,13 @@ func get_ctrl_type() -> StringName:
 func enter(msg : Dictionary = {}) -> void:
 	var vehicle = _vehicle.get_ref()
 	if vehicle != null:
+		vehicle.add_to_group(&"player_focus")
 		node_focus_requested.emit(vehicle)
 
 func exit() -> void:
-	pass
+	var vehicle = _vehicle.get_ref()
+	if vehicle != null:
+		vehicle.remove_from_group(&"player_focus")
 
 func handle_input(event : InputEvent) -> void:
 	var update_steering : bool = false

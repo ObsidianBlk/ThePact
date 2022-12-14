@@ -64,11 +64,13 @@ func enter(msg : Dictionary = {}) -> void:
 			if typeof(msg[&"spawn_point"]) == TYPE_VECTOR2:
 				character.global_position = msg[&"spawn_point"]
 		character.show(true)
+		character.add_to_group(&"player_focus")
 		node_focus_requested.emit(character)
 
 func exit() -> void:
 	var character = _character.get_ref()
 	if character != null:
+		character.remove_from_group(&"player_focus")
 		character.show(false)
 
 func handle_input(event : InputEvent) -> void:
