@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://bkl6n51syrbgl"]
+[gd_scene load_steps=6 format=3 uid="uid://bkl6n51syrbgl"]
 
 [ext_resource type="Script" path="res://Objects/Ghost/Ghost.gd" id="1_2f6jk"]
 [ext_resource type="Texture2D" uid="uid://bkfdah7natpub" path="res://Assets/Graphics/reference.svg" id="1_xmtng"]
+[ext_resource type="Texture2D" uid="uid://cxfuiel0mn1n0" path="res://Assets/Graphics/PAC/light_01.png" id="3_86wys"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aduhu"]
 radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_53ccv"]
+radius = 1024.0
 
 [node name="Ghost" type="CharacterBody2D"]
 script = ExtResource("1_2f6jk")
@@ -17,3 +21,18 @@ rotation = 1.5708
 texture = ExtResource("1_xmtng")
 
 [node name="Agent" type="NavigationAgent2D" parent="."]
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(2, 2)
+energy = 2.0
+texture = ExtResource("3_86wys")
+
+[node name="Detection" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detection"]
+shape = SubResource("CircleShape2D_53ccv")
+
+[connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]
+[connection signal="body_exited" from="Detection" to="." method="_on_detection_body_exited"]
