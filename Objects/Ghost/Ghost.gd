@@ -9,6 +9,10 @@ const AGENT_UPDATE_DELAY : float = 0.1
 const POI_UPDATE_DELAY : float = 3.0
 const POI_UPDATE_DELAY_VARIANCE : float = 0.5
 
+const REAPER_GROUP : StringName = &"reaper"
+const SCAN_INTERVAL : int = 40
+const SCAN_INTERVAL_ANGLE : float = deg_to_rad(2.0)
+
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
@@ -26,11 +30,14 @@ var _target : WeakRef = weakref(null)
 var _poi : WeakRef = weakref(null)
 var _poi_timer : SceneTreeTimer = null
 
+var _fear_the_reaper : bool = false
+
 # ------------------------------------------------------------------------------
 # Onready Variables
 # ------------------------------------------------------------------------------
 @onready var agent : NavigationAgent2D = $Agent
 @onready var light : PointLight2D = $PointLight2D
+@onready var colshape : CollisionShape2D = $Detection/CollisionShape2D
 
 # ------------------------------------------------------------------------------
 # Setters
@@ -81,18 +88,6 @@ func _UpdatePOI() -> void:
 				agent.target_location = plist[idx].global_position
 
 
-#func _CheckActiveTarget() -> void:
-#	if target_group == &"":
-#		if _target.get_ref() != null:
-#			_target = weakref(null)
-#		return
-#
-#	var tlist = get_tree().get_nodes_in_group(target_group)
-#	if tlist.size() > 0:
-#		if tlist[0] != _target.get_ref():
-#			print("My target is currently: ", tlist[0].name)
-#			_target = weakref(tlist[0])
-
 # ------------------------------------------------------------------------------
 # Handler Method
 # ------------------------------------------------------------------------------
@@ -100,7 +95,19 @@ func _on_update_agent_target_position() -> void:
 	#_CheckActiveTarget()
 	var target = _target.get_ref()
 	if target != null:
-		agent.target_location = target.global_position
+		if target.is_in_group(REAPER_GROUP):
+			var r : float = colshape.shape.radius
+			var dir : Vector2 = target.global_position.direction_to(global_position)
+			var run_pos : Vector2 = dir * r
+			var intervals : Array = range(0, SCAN_INTERVAL + 1)
+			intervals.append_array(range(0, -(SCAN_INTERVAL + 1), -1))
+			for i in intervals:
+				var pos : Vector2 = run_pos.rotated(i + SCAN_INTERVAL_ANGLE)
+				agent.target_location = pos
+				if agent.is_target_reachable():
+					break
+		else:
+			agent.target_location = target.global_position
 	var timer : SceneTreeTimer = get_tree().create_timer(AGENT_UPDATE_DELAY)
 	timer.timeout.connect(_on_update_agent_target_position)
 

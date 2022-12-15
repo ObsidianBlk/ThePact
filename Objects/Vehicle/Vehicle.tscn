@@ -31,6 +31,12 @@ position = Vector2(0, 39)
 z_index = 1
 texture = ExtResource("2_yor2x")
 
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
+z_index = 1
+texture = ExtResource("4_6c002")
+offset = Vector2(-8, -200)
+
 [node name="Headlights" type="Sprite2D" parent="."]
 visible = false
 modulate = Color(3, 3, 3, 1)
@@ -51,8 +57,8 @@ position = Vector2(-61, 14)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 visible = false
-position = Vector2(0, -101)
 texture = ExtResource("4_6c002")
+offset = Vector2(-8, -200)
 
 [connection signal="body_entered" from="InteractableArea" to="." method="_on_interactable_area_body_entered"]
 [connection signal="body_exited" from="InteractableArea" to="." method="_on_interactable_area_body_exited"]

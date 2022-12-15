@@ -54,7 +54,7 @@ target_group = &"player_focus"
 poi_group = &"ghost_poi"
 color = Color(0.160784, 0.537255, 1, 1)
 
-[node name="Vehicle" parent="." groups=["player", "player_vehicle"] instance=ExtResource("2_dbv5v")]
+[node name="Vehicle" parent="." groups=["player", "player_vehicle", "reaper"] instance=ExtResource("2_dbv5v")]
 position = Vector2(963, 729)
 
 [node name="PAC" parent="." groups=["player", "player_character"] instance=ExtResource("7_xf4kc")]
@@ -69,5 +69,16 @@ color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rx4an")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [connection signal="node_focus_requested" from="PlayerCTRL" to="FollowCamera2D" method="set_focus_node"]
