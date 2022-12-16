@@ -99,11 +99,21 @@ func _CloseDoor() -> void:
 func is_door_open() -> bool:
 	return _door_state == DOOR_STATE_OPEN
 
-func open_door(open : bool = true) -> void:
+func open_door(open : bool = true, instant : bool = false) -> void:
 	if open and _door_state == DOOR_STATE_CLOSED:
-		_OpenDoors()
+		if instant:
+			north_door.position.y = -DOOR_LENGTH
+			south_door.position.y = DOOR_LENGTH
+			_door_state = DOOR_STATE_OPEN
+		else:
+			_OpenDoors()
 	elif not open and _door_state == DOOR_STATE_OPEN:
-		_CloseDoor()
+		if instant:
+			north_door.position.y = 0
+			south_door.position.y = 0
+			_door_state = DOOR_STATE_CLOSED
+		else:
+			_CloseDoor()
 
 # ------------------------------------------------------------------------------
 # Handler Methods

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bdhin0l46u3y2"]
+[gd_scene load_steps=11 format=3 uid="uid://bdhin0l46u3y2"]
 
 [ext_resource type="Script" path="res://Scenes/world.gd" id="1_hb7a1"]
 [ext_resource type="PackedScene" uid="uid://iiwp02bol0ro" path="res://Scenes/Map.tscn" id="2_5t3gw"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://Scripts/PlayerCTRL/Player_CharacterCTRL.gd" id="4_tfp5n"]
 [ext_resource type="PackedScene" uid="uid://beh33s55iiudq" path="res://Objects/PAC/PAC.tscn" id="7_xf4kc"]
 [ext_resource type="Script" path="res://Scripts/FollowCamera2D.gd" id="8_feq8t"]
-[ext_resource type="PackedScene" uid="uid://dtqj5iwfxm1cy" path="res://Objects/Dropplet/Dropplet.tscn" id="10_rgv85"]
 [ext_resource type="PackedScene" uid="uid://bkl6n51syrbgl" path="res://Objects/Ghost/Ghost.tscn" id="14_byu7g"]
 
 [sub_resource type="Environment" id="Environment_rx4an"]
@@ -38,36 +37,35 @@ script = ExtResource("4_tfp5n")
 character_group = "player_character"
 
 [node name="Ghost" parent="." groups=["ghost"] instance=ExtResource("14_byu7g")]
-position = Vector2(-635, -270)
+position = Vector2(-419, -201)
 target_group = &"player_focus"
 poi_group = &"ghost_poi"
 color = Color(1, 0.392157, 0, 1)
 
 [node name="Ghost2" parent="." groups=["ghost"] instance=ExtResource("14_byu7g")]
-position = Vector2(185, -271)
+position = Vector2(401, -202)
 target_group = &"player_focus"
 poi_group = &"ghost_poi"
 color = Color(0.109804, 0.709804, 0.054902, 1)
 
 [node name="Ghost3" parent="." groups=["ghost"] instance=ExtResource("14_byu7g")]
-position = Vector2(-222, -225)
+position = Vector2(-6, -156)
 target_group = &"player_focus"
 poi_group = &"ghost_poi"
 color = Color(0.160784, 0.537255, 1, 1)
 
 [node name="Vehicle" parent="." groups=["player", "player_vehicle", "reaper"] instance=ExtResource("2_dbv5v")]
-position = Vector2(3022, 1823)
+position = Vector2(3247, 1925)
 rotation = -1.5708
 
 [node name="PAC" parent="." groups=["player", "player_character"] instance=ExtResource("7_xf4kc")]
-position = Vector2(3036, 1952)
+position = Vector2(3261, 2054)
 
 [node name="FollowCamera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource("8_feq8t")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -83,14 +81,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
-
-[node name="Dropplet" parent="." instance=ExtResource("10_rgv85")]
-position = Vector2(2389, 1845)
-
-[node name="Dropplet2" parent="." instance=ExtResource("10_rgv85")]
-position = Vector2(2122, 1845)
-
-[node name="Dropplet3" parent="." instance=ExtResource("10_rgv85")]
-position = Vector2(1739, 1845)
 
 [connection signal="node_focus_requested" from="PlayerCTRL" to="FollowCamera2D" method="set_focus_node"]

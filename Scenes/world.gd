@@ -12,6 +12,8 @@ func _ready() -> void:
 	axel = AXEL.instantiate()
 	axel.beam_length = 20
 	$Vehicle.set_rear_axel(axel)
+	
+	$Map.start()
 
 func _unhandled_input(event : InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
