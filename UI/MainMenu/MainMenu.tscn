@@ -1,0 +1,109 @@
+[gd_scene load_steps=9 format=3 uid="uid://ckaqrd7b0j1in"]
+
+[ext_resource type="Texture2D" uid="uid://cmcsxvmvl353d" path="res://Assets/Graphics/UIElements/GWJ-Full-Logo-noBG_128.svg" id="1_3n5xv"]
+[ext_resource type="FontFile" uid="uid://d0bjtmsdrlnln" path="res://Assets/Fonts/Oswald/Oswald-Bold.ttf" id="2_6t2lv"]
+[ext_resource type="Texture2D" uid="uid://68ikng305i3" path="res://Assets/Graphics/UIElements/GWJ-Full-Logo-noBG_128_Hover.svg" id="2_xjs8x"]
+[ext_resource type="Script" path="res://Scripts/URLButton.gd" id="3_psmmd"]
+[ext_resource type="Texture2D" uid="uid://khp6yaf63se6" path="res://Assets/Graphics/UIElements/Theme-Ghosts-128.png" id="4_8cw6n"]
+[ext_resource type="Texture2D" uid="uid://ci22205kdvmhq" path="res://Assets/Graphics/UIElements/Theme-Ghosts-128_Hover.png" id="5_54us0"]
+[ext_resource type="Texture2D" uid="uid://byibolofwie7d" path="res://Assets/Graphics/UIElements/Card_Guidinglight.png" id="6_ur232"]
+[ext_resource type="Texture2D" uid="uid://b1jy04h3kkkmt" path="res://Assets/Graphics/UIElements/ObsidianLogo.png" id="7_52fju"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Logos" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="HBC" type="HBoxContainer" parent="Logos"]
+layout_mode = 2
+
+[node name="Jam" type="HBoxContainer" parent="Logos/HBC"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="GWJ" type="TextureButton" parent="Logos/HBC/Jam"]
+layout_mode = 2
+texture_normal = ExtResource("1_3n5xv")
+texture_pressed = ExtResource("1_3n5xv")
+texture_hover = ExtResource("2_xjs8x")
+texture_focused = ExtResource("2_xjs8x")
+stretch_mode = 5
+script = ExtResource("3_psmmd")
+url = "https://godotwildjam.com/"
+
+[node name="Label" type="Label" parent="Logos/HBC/Jam"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.980392, 0.380392, 0.286275, 1)
+theme_override_fonts/font = ExtResource("2_6t2lv")
+theme_override_font_sizes/font_size = 72
+text = "#52"
+
+[node name="Theme" type="TextureButton" parent="Logos/HBC/Jam"]
+layout_mode = 2
+texture_normal = ExtResource("4_8cw6n")
+texture_pressed = ExtResource("4_8cw6n")
+texture_hover = ExtResource("5_54us0")
+texture_focused = ExtResource("5_54us0")
+script = ExtResource("3_psmmd")
+url = "https://itch.io/jam/godot-wild-jam-52"
+
+[node name="TextureRect" type="TextureRect" parent="Logos/HBC/Jam"]
+layout_mode = 2
+texture = ExtResource("6_ur232")
+
+[node name="Control" type="Control" parent="Logos/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OBSLogo" type="TextureButton" parent="Logos/HBC"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture_normal = ExtResource("7_52fju")
+texture_pressed = ExtResource("7_52fju")
+texture_hover = ExtResource("7_52fju")
+texture_focused = ExtResource("7_52fju")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("3_psmmd")
+url = "https://obsidianblk.itch.io/"
+
+[node name="Options" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBC" type="VBoxContainer" parent="Options"]
+layout_mode = 2
+
+[node name="Start" type="Button" parent="Options/VBC"]
+layout_mode = 2
+text = "Start"
+
+[node name="Options" type="Button" parent="Options/VBC"]
+layout_mode = 2
+text = "Options"
+
+[node name="Quit" type="Button" parent="Options/VBC"]
+layout_mode = 2
+text = "Quit
+"
