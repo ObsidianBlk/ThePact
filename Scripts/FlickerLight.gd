@@ -6,7 +6,7 @@ extends PointLight2D
 # Export Variables
 # ------------------------------------------------------------------------------
 @export_category("Flicker Light")
-@export var enable : bool = false
+@export var enable : bool = false : set = set_enable
 @export var scale_variance : float = 0.5
 @export var energy_variance : float = 0.5
 @export var transition_time : float = 0.2
@@ -43,6 +43,8 @@ func _ready() -> void:
 # ------------------------------------------------------------------------------
 func _TweenState() -> void:
 	if not enable:
+		energy = _base_energy
+		scale = Vector2(_base_scale, _base_scale)
 		return
 	
 	var variance : float = transition_time * transition_variance
@@ -56,6 +58,24 @@ func _TweenState() -> void:
 	
 	var _tween : Tween = create_tween()
 	_tween.tween_property(self, "scale", Vector2(nscale, nscale), dur)
-	_tween.tween_property(self, "energy", nenergy, dur)
 	_tween.parallel()
+	_tween.tween_property(self, "energy", nenergy, dur)
 	_tween.finished.connect(_TweenState)
+
+
+# ------------------------------------------------------------------------------
+# Public Methods
+# ------------------------------------------------------------------------------
+func set_base_energy(e : float) -> void:
+	if e >= 0.0:
+		_base_energy = e
+
+func get_base_energy() -> float:
+	return _base_energy
+
+func set_base_scale(s : float) -> void:
+	if s >= 0.0:
+		_base_scale = s
+
+func get_base_scale() -> float:
+	return _base_scale

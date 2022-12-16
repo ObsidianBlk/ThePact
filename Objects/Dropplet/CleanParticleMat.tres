@@ -1,0 +1,21 @@
+[gd_resource type="ParticleProcessMaterial" format=3 uid="uid://b8d2no6xa2euf"]
+
+[resource]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 24.0
+emission_ring_inner_radius = 8.0
+particle_flag_disable_z = true
+direction = Vector3(0.25, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = -1.0
+orbit_velocity_max = 1.0
+scale_min = 0.5
+scale_max = 1.5
+turbulence_noise_strength = 4.63
+turbulence_noise_scale = 6.31
+turbulence_noise_speed_random = 1.66
+turbulence_influence_min = 0.16
+turbulence_influence_max = 0.49

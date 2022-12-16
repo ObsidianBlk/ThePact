@@ -1,0 +1,119 @@
+[gd_scene load_steps=9 format=3 uid="uid://tpkhebixfss2"]
+
+[ext_resource type="Texture2D" uid="uid://oufjpxfi060b" path="res://Assets/Graphics/Tileset/Tileset.png" id="1_0wr6l"]
+[ext_resource type="Script" path="res://Objects/Door/Door.gd" id="1_i7tya"]
+[ext_resource type="Texture2D" uid="uid://cfqc6yjfgsvmv" path="res://Assets/Graphics/Lights/circle_05.png" id="2_gpcyp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rthsv"]
+size = Vector2(16, 96)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fgtho"]
+polygon = PackedVector2Array(-4, -96, -4, 0, 4, 0, 4, -96)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_5b3d1"]
+polygon = PackedVector2Array(-4, 0, -4, 96, 4, 96, 4, 0)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jqmx2"]
+radius = 96.0
+height = 256.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_awcfk"]
+size = Vector2(48, 96)
+
+[node name="Door" type="Node2D"]
+script = ExtResource("1_i7tya")
+
+[node name="NorthDoor" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NorthDoor"]
+position = Vector2(0, -48)
+shape = SubResource("RectangleShape2D_rthsv")
+
+[node name="Sprite2D" type="Sprite2D" parent="NorthDoor"]
+texture = ExtResource("1_0wr6l")
+offset = Vector2(0, -48)
+region_enabled = true
+region_rect = Rect2(0, 288, 16, 96)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="NorthDoor"]
+occluder = SubResource("OccluderPolygon2D_fgtho")
+
+[node name="SouthDoor" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SouthDoor"]
+position = Vector2(0, 48)
+shape = SubResource("RectangleShape2D_rthsv")
+
+[node name="Sprite2D" type="Sprite2D" parent="SouthDoor"]
+rotation = 3.14159
+texture = ExtResource("1_0wr6l")
+offset = Vector2(0, -48)
+region_enabled = true
+region_rect = Rect2(0, 288, 16, 96)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="SouthDoor"]
+occluder = SubResource("OccluderPolygon2D_5b3d1")
+
+[node name="NorthEdge" type="Sprite2D" parent="."]
+position = Vector2(0, -89)
+texture = ExtResource("1_0wr6l")
+region_enabled = true
+region_rect = Rect2(18, 288, 43, 15)
+
+[node name="PointLight2D" type="PointLight2D" parent="NorthEdge"]
+visible = false
+position = Vector2(-14, 0)
+scale = Vector2(0.75, 0.75)
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("2_gpcyp")
+
+[node name="PointLight2D2" type="PointLight2D" parent="NorthEdge"]
+visible = false
+position = Vector2(13, 0)
+scale = Vector2(0.75, 0.75)
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("2_gpcyp")
+
+[node name="SouthEdge" type="Sprite2D" parent="."]
+position = Vector2(0, 89)
+scale = Vector2(-1, -1)
+texture = ExtResource("1_0wr6l")
+region_enabled = true
+region_rect = Rect2(18, 288, 43, 15)
+
+[node name="PointLight2D" type="PointLight2D" parent="SouthEdge"]
+visible = false
+position = Vector2(14, 0)
+scale = Vector2(0.75, 0.75)
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("2_gpcyp")
+
+[node name="PointLight2D2" type="PointLight2D" parent="SouthEdge"]
+visible = false
+position = Vector2(-14, 0)
+scale = Vector2(0.75, 0.75)
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("2_gpcyp")
+
+[node name="Detection" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detection"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_jqmx2")
+
+[node name="CharDetection" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharDetection"]
+shape = SubResource("RectangleShape2D_awcfk")
+
+[connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]
+[connection signal="body_exited" from="Detection" to="." method="_on_detection_body_exited"]
+[connection signal="body_entered" from="CharDetection" to="." method="_on_char_detection_body_entered"]

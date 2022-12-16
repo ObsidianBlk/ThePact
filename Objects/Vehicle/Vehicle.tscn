@@ -57,6 +57,9 @@ position = Vector2(-61, 14)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 visible = false
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 3.5
 texture = ExtResource("4_6c002")
 offset = Vector2(-8, -200)
 

@@ -66,6 +66,8 @@ func _physics_process(delta : float) -> void:
 			var min_delay : float = POI_UPDATE_DELAY * POI_UPDATE_DELAY_VARIANCE
 			_poi_timer = get_tree().create_timer(randf_range(min_delay, POI_UPDATE_DELAY + min_delay))
 			_poi_timer.timeout.connect(_UpdatePOI)
+		elif _target.get_ref() == null:
+			_UpdatePOI()
 	
 	if agent.is_target_reachable() and not agent.is_target_reached():
 		var nloc : Vector2 = agent.get_next_location()
@@ -78,7 +80,7 @@ func _physics_process(delta : float) -> void:
 # Private Method
 # ------------------------------------------------------------------------------
 func _UpdatePOI() -> void:
-	_poi_timer = null
+	_ClearPOITimer()
 	if poi_group != &"" and _target.get_ref() == null:
 		var plist = get_tree().get_nodes_in_group(poi_group)
 		if plist.size() > 0:
@@ -87,6 +89,10 @@ func _UpdatePOI() -> void:
 				_poi = weakref(plist[idx])
 				agent.target_location = plist[idx].global_position
 
+func _ClearPOITimer() -> void:
+	if _poi_timer != null:
+		_poi_timer.timeout.disconnect(_UpdatePOI)
+		_poi_timer = null
 
 # ------------------------------------------------------------------------------
 # Handler Method
@@ -95,16 +101,24 @@ func _on_update_agent_target_position() -> void:
 	#_CheckActiveTarget()
 	var target = _target.get_ref()
 	if target != null:
+		_ClearPOITimer()
 		if target.is_in_group(REAPER_GROUP):
 			var r : float = colshape.shape.radius
 			var dir : Vector2 = target.global_position.direction_to(global_position)
 			var run_pos : Vector2 = dir * r
-			var intervals : Array = range(0, SCAN_INTERVAL + 1)
-			intervals.append_array(range(0, -(SCAN_INTERVAL + 1), -1))
+			var intervals : Array = []
+			if randf() >= 0.5:
+				intervals = range(0, SCAN_INTERVAL + 1)
+				intervals.append_array(range(0, -(SCAN_INTERVAL + 1), -1))
+			else:
+				intervals = range(0, -(SCAN_INTERVAL + 1), -1)
+				intervals.append_array(range(0, SCAN_INTERVAL + 1))
+			var found : bool = false
 			for i in intervals:
 				var pos : Vector2 = run_pos.rotated(i + SCAN_INTERVAL_ANGLE)
 				agent.target_location = pos
 				if agent.is_target_reachable():
+					found = true
 					break
 		else:
 			agent.target_location = target.global_position

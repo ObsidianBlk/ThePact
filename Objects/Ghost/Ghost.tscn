@@ -25,6 +25,9 @@ texture = ExtResource("1_xmtng")
 [node name="PointLight2D" type="PointLight2D" parent="."]
 scale = Vector2(2, 2)
 energy = 2.0
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 3.2
 texture = ExtResource("3_86wys")
 
 [node name="Detection" type="Area2D" parent="."]

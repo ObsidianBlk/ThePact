@@ -1,43 +1,25 @@
-[gd_scene load_steps=7 format=3 uid="uid://dtqj5iwfxm1cy"]
+[gd_scene load_steps=9 format=3 uid="uid://dtqj5iwfxm1cy"]
 
 [ext_resource type="Texture2D" uid="uid://ccrkpw2np7h58" path="res://Assets/Graphics/Goo/Goo.png" id="1_0qsgt"]
-[ext_resource type="Texture2D" uid="uid://cxfuiel0mn1n0" path="res://Assets/Graphics/PAC/light_01.png" id="2_feuij"]
+[ext_resource type="Script" path="res://Objects/Dropplet/Dropplet.gd" id="1_5rxc2"]
+[ext_resource type="Material" uid="uid://b8d2no6xa2euf" path="res://Objects/Dropplet/CleanParticleMat.tres" id="1_c336w"]
 [ext_resource type="Script" path="res://Scripts/FlickerLight.gd" id="3_djsun"]
+[ext_resource type="Texture2D" uid="uid://bhybb2vlifxwh" path="res://Assets/Graphics/Goo/Goo_White.png" id="3_s86ek"]
+[ext_resource type="Texture2D" uid="uid://cfqc6yjfgsvmv" path="res://Assets/Graphics/Lights/circle_05.png" id="4_vy8hf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dnjje"]
-radius = 128.0
+radius = 16.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jkgib"]
 blend_mode = 1
 light_mode = 1
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_74mkl"]
-emission_shape = 6
-emission_ring_axis = Vector3(0, 0, 1)
-emission_ring_height = 0.0
-emission_ring_radius = 24.0
-emission_ring_inner_radius = 8.0
-particle_flag_disable_z = true
-direction = Vector3(0.25, 0, 0)
-spread = 180.0
-gravity = Vector3(0, 0, 0)
-orbit_velocity_min = -0.5
-orbit_velocity_max = 0.5
-scale_min = 0.5
-scale_max = 1.5
-color = Color(0.870588, 0.705882, 0.870588, 1)
-turbulence_noise_strength = 4.63
-turbulence_noise_scale = 6.31
-turbulence_noise_speed_random = 1.66
-turbulence_influence_min = 0.16
-turbulence_influence_max = 0.49
-turbulence_initial_displacement_min = -36.2
-turbulence_initial_displacement_max = 50.7
-
 [node name="Dropplet" type="Area2D"]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_5rxc2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_dnjje")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
@@ -47,13 +29,18 @@ lifetime = 1.5
 explosiveness = 0.39
 randomness = 0.31
 trail_enabled = true
-process_material = SubResource("ParticleProcessMaterial_74mkl")
+process_material = ExtResource("1_c336w")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Goo_Tainted" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_0qsgt")
+
+[node name="Goo_Clean" type="Sprite2D" parent="."]
+texture = ExtResource("3_s86ek")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_feuij")
+texture = ExtResource("4_vy8hf")
 script = ExtResource("3_djsun")
-enable = true
+scale_variance = 0.2
+transition_time = 0.1
