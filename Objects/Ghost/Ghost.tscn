@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bkl6n51syrbgl"]
+[gd_scene load_steps=8 format=3 uid="uid://bkl6n51syrbgl"]
 
 [ext_resource type="Script" path="res://Objects/Ghost/Ghost.gd" id="1_2f6jk"]
 [ext_resource type="Texture2D" uid="uid://bkfdah7natpub" path="res://Assets/Graphics/reference.svg" id="1_xmtng"]
@@ -7,18 +7,22 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_aduhu"]
 radius = 32.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bvbs8"]
+size = Vector2(64, 64)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_53ccv"]
-radius = 1024.0
+radius = 768.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ca808"]
+radius = 64.0
 
 [node name="Ghost" type="CharacterBody2D"]
 script = ExtResource("1_2f6jk")
+explore_speed = null
+chase_speed = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_aduhu")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 1.5708
-texture = ExtResource("1_xmtng")
 
 [node name="Agent" type="NavigationAgent2D" parent="."]
 
@@ -30,6 +34,20 @@ shadow_filter = 1
 shadow_filter_smooth = 3.2
 texture = ExtResource("3_86wys")
 
+[node name="Body" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Body"]
+rotation = 1.5708
+texture = ExtResource("1_xmtng")
+
+[node name="KillZone" type="Area2D" parent="Body"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/KillZone"]
+position = Vector2(32, 0)
+shape = SubResource("RectangleShape2D_bvbs8")
+
 [node name="Detection" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
@@ -37,5 +55,15 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detection"]
 shape = SubResource("CircleShape2D_53ccv")
 
+[node name="DropFinder" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DropFinder"]
+shape = SubResource("CircleShape2D_ca808")
+
+[connection signal="body_entered" from="Body/KillZone" to="." method="_on_KillZone_body_entered"]
 [connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]
 [connection signal="body_exited" from="Detection" to="." method="_on_detection_body_exited"]
+[connection signal="area_entered" from="DropFinder" to="." method="_on_drop_finder_area_entered"]
+[connection signal="area_exited" from="DropFinder" to="." method="_on_drop_finder_area_exited"]

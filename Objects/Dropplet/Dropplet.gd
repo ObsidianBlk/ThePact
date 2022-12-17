@@ -50,6 +50,9 @@ func _Remove() -> void:
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
+func is_tainted() -> bool:
+	return tainted_sprite.visible
+
 func taint() -> void:
 	particles.process_material = TAINTED_PARTICLES
 	light.color = TAINTED_COLOR

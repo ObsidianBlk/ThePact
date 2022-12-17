@@ -14,6 +14,8 @@ const MAX_THROTTLE_TIME : float = 0.1
 const MAX_BREAKING_TIME : float = 0.25
 const MAX_STEERING_TIME : float = 0.1
 
+const DEAD_GROUP : StringName = &"dead"
+
 # ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
@@ -127,6 +129,10 @@ func exit() -> void:
 		vehicle.remove_from_group(&"player_focus")
 
 func handle_input(event : InputEvent) -> void:
+	var v = _vehicle.get_ref()
+	if v == null or v.is_in_group(DEAD_GROUP):
+		return
+	
 	var update_steering : bool = false
 	if event.is_action("v_accel"):
 		_throttle(event.get_action_strength("v_accel"))
@@ -155,6 +161,32 @@ func handle_input(event : InputEvent) -> void:
 				_vehicle.get_ref().toggle_headlights()
 	if update_steering:
 		_steer(_dir[1] - _dir[0])
+
+func set_position_orientation(pos : Vector2, rotation : float) -> void:
+	var v = _vehicle.get_ref()
+	if v != null:
+		v.global_position = pos
+		v.rotation = rotation
+
+func set_group_assignment(group_name : StringName) -> void:
+	var v = _vehicle.get_ref()
+	if v != null:
+		if not v.is_in_group(group_name):
+			v.add_to_group(group_name)
+			if group_name == DEAD_GROUP:
+				v.stop_activity()
+
+func clear_group_assignment(group_name : StringName) -> void:
+	var v = _vehicle.get_ref()
+	if v != null:
+		if v.is_in_group(group_name):
+			v.remove_from_group(group_name)
+
+func is_group_assigned(group_name : StringName) -> bool:
+	var v = _vehicle.get_ref()
+	if v != null:
+		return v.is_in_group(group_name)
+	return false
 
 # ------------------------------------------------------------------------------
 # Handler Methods

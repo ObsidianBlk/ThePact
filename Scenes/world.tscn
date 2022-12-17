@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bdhin0l46u3y2"]
+[gd_scene load_steps=12 format=3 uid="uid://bdhin0l46u3y2"]
 
 [ext_resource type="Script" path="res://Scenes/world.gd" id="1_hb7a1"]
 [ext_resource type="PackedScene" uid="uid://iiwp02bol0ro" path="res://Scenes/Map.tscn" id="2_5t3gw"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Scripts/PlayerCTRL/Player_CharacterCTRL.gd" id="4_tfp5n"]
 [ext_resource type="PackedScene" uid="uid://beh33s55iiudq" path="res://Objects/PAC/PAC.tscn" id="7_xf4kc"]
 [ext_resource type="Script" path="res://Scripts/FollowCamera2D.gd" id="8_feq8t"]
+[ext_resource type="PackedScene" uid="uid://bucqc034snev2" path="res://UI/PowerMeter/PowerMeter.tscn" id="10_1s6jq"]
 [ext_resource type="PackedScene" uid="uid://bkl6n51syrbgl" path="res://Objects/Ghost/Ghost.tscn" id="14_byu7g"]
 
 [sub_resource type="Environment" id="Environment_rx4an"]
@@ -39,22 +40,28 @@ character_group = "player_character"
 [node name="Ghost" parent="." groups=["ghost"] instance=ExtResource("14_byu7g")]
 position = Vector2(-419, -201)
 target_group = &"player_focus"
-poi_group = &"ghost_poi"
+poi_group = &"dropplet"
+explore_speed = 300.0
+chase_speed = 500.0
 color = Color(1, 0.392157, 0, 1)
 
 [node name="Ghost2" parent="." groups=["ghost"] instance=ExtResource("14_byu7g")]
 position = Vector2(401, -202)
 target_group = &"player_focus"
-poi_group = &"ghost_poi"
+poi_group = &"dropplet"
+explore_speed = 300.0
+chase_speed = 500.0
 color = Color(0.109804, 0.709804, 0.054902, 1)
 
 [node name="Ghost3" parent="." groups=["ghost"] instance=ExtResource("14_byu7g")]
-position = Vector2(-6, -156)
+position = Vector2(5, -156)
 target_group = &"player_focus"
-poi_group = &"ghost_poi"
+poi_group = &"dropplet"
+explore_speed = 300.0
+chase_speed = 500.0
 color = Color(0.160784, 0.537255, 1, 1)
 
-[node name="Vehicle" parent="." groups=["player", "player_vehicle", "reaper"] instance=ExtResource("2_dbv5v")]
+[node name="Vehicle" parent="." groups=["player", "player_vehicle"] instance=ExtResource("2_dbv5v")]
 position = Vector2(3247, 1925)
 rotation = -1.5708
 
@@ -82,4 +89,12 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
+[node name="GameUI" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="PowerMeter" parent="GameUI" instance=ExtResource("10_1s6jq")]
+
 [connection signal="node_focus_requested" from="PlayerCTRL" to="FollowCamera2D" method="set_focus_node"]
+[connection signal="target_caught" from="Ghost" to="PlayerCTRL" method="dead"]
+[connection signal="target_caught" from="Ghost2" to="PlayerCTRL" method="dead"]
+[connection signal="target_caught" from="Ghost3" to="PlayerCTRL" method="dead"]

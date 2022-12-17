@@ -27,6 +27,7 @@ var _used_dropplet_markers : Array = []
 # ------------------------------------------------------------------------------
 @onready var _dropplet_spawner_container : Node2D = $DroppletSpawners
 @onready var _dropplet_container : Node2D = $Dropplets
+@onready var _spawnpoint_container : Node2D = $SpawnPoints
 
 # ------------------------------------------------------------------------------
 # Override Methods
@@ -96,6 +97,17 @@ func stop() -> void:
 	if _active:
 		_active = false
 		_PopAllDropplets()
+
+func get_random_spawnpoint() -> Dictionary:
+	var spd : Dictionary = {"vehicle": Vector2.ZERO, "character": Vector2.ZERO, "rotation": 0.0}
+	if _spawnpoint_container:
+		var points : Array = _spawnpoint_container.get_children()
+		if points.size() > 0:
+			var idx = randi_range(0, points.size() - 1)
+			spd["vehicle"] = points[idx].get_vehicle_position()
+			spd["rotation"] = points[idx].rotation
+			spd["character"] = points[idx].get_character_position()
+	return spd
 
 # ------------------------------------------------------------------------------
 # Handler Methods

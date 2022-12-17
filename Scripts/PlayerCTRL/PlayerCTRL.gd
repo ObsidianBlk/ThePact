@@ -4,12 +4,16 @@ extends Node
 # Signals
 # ------------------------------------------------------------------------------
 signal node_focus_requested(focus)
+signal player_dead()
 
 # ------------------------------------------------------------------------------
 # Constants
 # ------------------------------------------------------------------------------
 const MODE_VEHICLE : int = 0
 const MODE_CHARACTER : int = 1
+
+const REAPER_GROUP : StringName = &"reaper"
+const DEAD_GROUP : StringName = &"dead"
 
 # ------------------------------------------------------------------------------
 # Export Variables
@@ -104,6 +108,26 @@ func _ChangeMode(new_mode : int, msg : Dictionary = {}) -> void:
 		if ctrl != null:
 			print("MSG: ", msg)
 			ctrl.enter(msg)
+
+# ------------------------------------------------------------------------------
+# Public Methods
+# ------------------------------------------------------------------------------
+func dead() -> void:
+	var ctrl = _GetActiveControl()
+	if ctrl != null:
+		if not ctrl.is_group_assigned(DEAD_GROUP):
+			ctrl.set_group_assignment(DEAD_GROUP)
+			player_dead.emit()
+
+func revive(spawn : Dictionary) -> void:
+	var vctrl = _vehicle_ctrl.get_ref()
+	if vctrl != null:
+		vctrl.clear_group_assignment(DEAD_GROUP)
+		vctrl.set_position_orientation(spawn["vehicle"], spawn["rotation"])
+	var cctrl = _character_ctrl.get_ref()
+	if cctrl != null:
+		cctrl.clear_group_assignment(DEAD_GROUP)
+		cctrl.set_position_orientation(spawn["character"], spawn["rotation"])
 
 # ------------------------------------------------------------------------------
 # Handler Methods

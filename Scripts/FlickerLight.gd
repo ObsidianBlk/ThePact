@@ -1,4 +1,4 @@
-@tool
+#@tool
 extends PointLight2D
 
 
@@ -26,7 +26,7 @@ var _base_energy : float = 0.0
 func set_enable(e : bool) -> void:
 	if enable != e:
 		enable = e
-		if enable:
+		if enable and is_inside_tree():
 			_TweenState()
 
 # ------------------------------------------------------------------------------

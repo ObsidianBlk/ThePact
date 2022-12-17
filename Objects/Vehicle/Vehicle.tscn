@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://deas3o1o3fk3h"]
+[gd_scene load_steps=8 format=3 uid="uid://deas3o1o3fk3h"]
 
 [ext_resource type="Script" path="res://Objects/Vehicle/Vehicle.gd" id="1_2ecc7"]
 [ext_resource type="Texture2D" uid="uid://wfd3o40dpdte" path="res://Assets/Graphics/Vehicle/Vehicle.svg" id="2_yor2x"]
 [ext_resource type="Texture2D" uid="uid://dqpx8y3e66tki" path="res://Assets/Graphics/Vehicle/Headlights.svg" id="3_s4b74"]
 [ext_resource type="Texture2D" uid="uid://cef8qrjdqoka8" path="res://Assets/Graphics/Vehicle/Headlights_Lights.png" id="4_6c002"]
+[ext_resource type="Texture2D" uid="uid://cfqc6yjfgsvmv" path="res://Assets/Graphics/Lights/circle_05.png" id="5_k107s"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_06bpv"]
 radius = 28.0
@@ -62,6 +63,18 @@ shadow_filter = 1
 shadow_filter_smooth = 3.5
 texture = ExtResource("4_6c002")
 offset = Vector2(-8, -200)
+
+[node name="Break1" type="PointLight2D" parent="."]
+position = Vector2(25, 60)
+color = Color(1, 0.14902, 0.117647, 1)
+energy = 0.2
+texture = ExtResource("5_k107s")
+
+[node name="Break2" type="PointLight2D" parent="."]
+position = Vector2(-27, 60)
+color = Color(1, 0.14902, 0.117647, 1)
+energy = 0.2
+texture = ExtResource("5_k107s")
 
 [connection signal="body_entered" from="InteractableArea" to="." method="_on_interactable_area_body_entered"]
 [connection signal="body_exited" from="InteractableArea" to="." method="_on_interactable_area_body_exited"]

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpjslcwxffivo"]
+
+[ext_resource type="Script" path="res://Objects/Trigger/Trigger.gd" id="1_dt4wj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vdof4"]
+radius = 96.0
+
+[node name="Trigger" type="Area2D" groups=["trigger"]]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_dt4wj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vdof4")

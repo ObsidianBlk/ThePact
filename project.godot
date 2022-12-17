@@ -29,6 +29,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Objects/PAC/PAC.gd"
 }, {
+"base": "Node2D",
+"class": &"SpawnPoint",
+"language": &"GDScript",
+"path": "res://Scripts/SpawnPoint.gd"
+}, {
 "base": "Line2D",
 "class": &"TrailLine",
 "language": &"GDScript",
@@ -44,6 +49,7 @@ _global_script_class_icons={
 "BlendMap": "",
 "FollowCamera2D": "",
 "PAC": "",
+"SpawnPoint": "",
 "TrailLine": "",
 "Vehicle": ""
 }

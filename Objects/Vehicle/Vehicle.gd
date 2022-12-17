@@ -50,6 +50,8 @@ var _enter_vehicle_timer : SceneTreeTimer = null
 # ------------------------------------------------------------------------------
 @onready var headlights : Sprite2D = $Headlights
 @onready var headlights_light : PointLight2D = $PointLight2D
+@onready var break1_light : PointLight2D = $Break1
+@onready var break2_light : PointLight2D = $Break2
 
 # ------------------------------------------------------------------------------
 # Setters / Getters
@@ -138,6 +140,14 @@ func _UpdateAxelValues() -> void:
 		_friction = 0.0
 		_drag = 0.0
 
+func _UpdateBreakLights() -> void:
+	if _reverse or _breaking_power > 0.0:
+		break1_light.energy = 1.0
+		break2_light.energy = 1.0
+	else:
+		break1_light.energy = 0.2
+		break2_light.energy = 0.2
+
 # ------------------------------------------------------------------------------
 # Public Methods
 # ------------------------------------------------------------------------------
@@ -194,6 +204,7 @@ func is_reverse() -> bool:
 func set_reverse(r : bool) -> void:
 	if _reverse != r:
 		_reverse = r
+		_UpdateBreakLights()
 		reversed.emit(_reverse)
 
 func toggle_reverse() -> void:
@@ -216,11 +227,17 @@ func set_break(v : float) -> void:
 	_breaking_power = _max_breaking_power * v
 	if _breaking_power > 0.0:
 		breaking.emit()
+	else:
+		_UpdateBreakLights()
 
 func toggle_headlights() -> void:
 	if headlights and headlights_light:
 		headlights.visible = not headlights.visible
 		headlights_light.visible = headlights.visible
+
+func stop_activity() -> void:
+	_engine_power = 0.0
+	_breaking_power = 0.0
 
 # ------------------------------------------------------------------------------
 # Handler Methods

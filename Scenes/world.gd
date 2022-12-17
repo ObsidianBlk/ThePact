@@ -6,12 +6,22 @@ extends Node2D
 # ------------------------------------------------------------------------------
 const AXEL : PackedScene = preload("res://Objects/Vehicle/Axel/Axel.tscn")
 
+
+# ------------------------------------------------------------------------------
+# Onready Variables
+# ------------------------------------------------------------------------------
+@onready var power_meter : Control = $GameUI/PowerMeter
+
 # ------------------------------------------------------------------------------
 # Override Methods
 # ------------------------------------------------------------------------------
 func _ready() -> void:
 	_ConnectAxelsToVehicle(20.0, 20.0)
+	$PlayerCTRL.player_dead.connect(_on_player_dead)
 	$Map.dropplet_picked_up.connect(_on_pickup)
+	
+	var spawn : Dictionary = $Map.get_random_spawnpoint()
+	$PlayerCTRL.revive(spawn)
 	$Map.start()
 
 
@@ -37,6 +47,8 @@ func _ConnectAxelsToVehicle(beam : float, steering : float) -> void:
 # Handler Methods
 # ------------------------------------------------------------------------------
 func _on_pickup(tainted : bool) -> void:
-	pass
+	power_meter.increment_bar(tainted)
 
+func _on_player_dead() -> void:
+	pass
 

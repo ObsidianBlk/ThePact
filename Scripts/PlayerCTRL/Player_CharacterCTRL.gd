@@ -6,6 +6,11 @@ extends Node
 signal node_focus_requested(focus)
 
 # ------------------------------------------------------------------------------
+# Constants
+# ------------------------------------------------------------------------------
+const DEAD_GROUP : StringName = &"dead"
+
+# ------------------------------------------------------------------------------
 # Export Variables
 # ------------------------------------------------------------------------------
 @export_category("Player Character Control")
@@ -78,6 +83,8 @@ func handle_input(event : InputEvent) -> void:
 	if char == null:
 		_CheckCharacter()
 		return
+	if char.is_in_group(DEAD_GROUP):
+		return
 	
 	if event.is_action("c_forward") or event.is_action("c_backward"):
 		# NOTE: This is for an X-axis aligned node.
@@ -102,4 +109,26 @@ func handle_input(event : InputEvent) -> void:
 		elif not pressed:
 			char.interact(false, true)
 
+func set_position_orientation(pos : Vector2, rotation : float) -> void:
+	var c = _character.get_ref()
+	if c != null:
+		c.global_position = pos
+		c.rotation = rotation
 
+func set_group_assignment(group_name : StringName) -> void:
+	var c = _character.get_ref()
+	if c != null:
+		if not c.is_in_group(group_name):
+			c.add_to_group(group_name)
+
+func clear_group_assignment(group_name : StringName) -> void:
+	var c = _character.get_ref()
+	if c != null:
+		if c.is_in_group(group_name):
+			c.remove_from_group(group_name)
+
+func is_group_assigned(group_name : StringName) -> bool:
+	var c = _character.get_ref()
+	if c != null:
+		return c.is_in_group(group_name)
+	return false

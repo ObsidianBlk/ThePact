@@ -3,6 +3,11 @@ extends CharacterBody2D
 
 
 # ------------------------------------------------------------------------------
+# Signals
+# ------------------------------------------------------------------------------
+signal target_caught()
+
+# ------------------------------------------------------------------------------
 # Constants
 # ------------------------------------------------------------------------------
 const AGENT_UPDATE_DELAY : float = 0.1
@@ -10,6 +15,8 @@ const POI_UPDATE_DELAY : float = 3.0
 const POI_UPDATE_DELAY_VARIANCE : float = 0.5
 
 const REAPER_GROUP : StringName = &"reaper"
+const DEAD_GROUP : StringName = &"dead"
+const DROPPLET_GROUP : StringName = &"dropplet"
 const SCAN_INTERVAL : int = 40
 const SCAN_INTERVAL_ANGLE : float = deg_to_rad(2.0)
 
@@ -19,7 +26,8 @@ const SCAN_INTERVAL_ANGLE : float = deg_to_rad(2.0)
 @export_category("Ghost")
 @export var target_group : StringName = &""
 @export var poi_group : StringName = &""
-@export var speed : float = 300.0
+@export var explore_speed : float = 300.0
+@export var chase_speed : float = 500.0
 @export var color : Color = Color.WHITE
 
 
@@ -30,6 +38,8 @@ var _target : WeakRef = weakref(null)
 var _poi : WeakRef = weakref(null)
 var _poi_timer : SceneTreeTimer = null
 
+var _visible_dropplets : Array = []
+
 var _fear_the_reaper : bool = false
 
 # ------------------------------------------------------------------------------
@@ -38,6 +48,7 @@ var _fear_the_reaper : bool = false
 @onready var agent : NavigationAgent2D = $Agent
 @onready var light : PointLight2D = $PointLight2D
 @onready var colshape : CollisionShape2D = $Detection/CollisionShape2D
+@onready var body_node : Node2D = $Body
 
 # ------------------------------------------------------------------------------
 # Setters
@@ -66,22 +77,29 @@ func _physics_process(delta : float) -> void:
 			var min_delay : float = POI_UPDATE_DELAY * POI_UPDATE_DELAY_VARIANCE
 			_poi_timer = get_tree().create_timer(randf_range(min_delay, POI_UPDATE_DELAY + min_delay))
 			_poi_timer.timeout.connect(_UpdatePOI)
-		elif _target.get_ref() == null:
+		elif not _TargetChaseable():
+			_TaintADropplet()
 			_UpdatePOI()
 	
 	if agent.is_target_reachable() and not agent.is_target_reached():
 		var nloc : Vector2 = agent.get_next_location()
 		var dir : Vector2 = global_position.direction_to(nloc)
+		var speed : float = chase_speed if _target.get_ref() != null else explore_speed
 		velocity += ((dir * speed) - velocity) * delta
 		move_and_slide()
-		rotation = velocity.angle()
+		body_node.rotation = velocity.angle()
 
 # ------------------------------------------------------------------------------
 # Private Method
 # ------------------------------------------------------------------------------
+func _TargetChaseable() -> bool:
+	if _target.get_ref() != null:
+		return not _target.get_ref().is_in_group(DEAD_GROUP)
+	return false
+
 func _UpdatePOI() -> void:
 	_ClearPOITimer()
-	if poi_group != &"" and _target.get_ref() == null:
+	if poi_group != &"" and not _TargetChaseable():
 		var plist = get_tree().get_nodes_in_group(poi_group)
 		if plist.size() > 0:
 			var idx : int = randi_range(0, plist.size() - 1)
@@ -94,6 +112,12 @@ func _ClearPOITimer() -> void:
 		_poi_timer.timeout.disconnect(_UpdatePOI)
 		_poi_timer = null
 
+func _TaintADropplet() -> void:
+	if _visible_dropplets.size() > 0:
+		var idx = randi_range(0, _visible_dropplets.size() - 1)
+		if not _visible_dropplets[idx].is_tainted():
+			_visible_dropplets[idx].taint()
+
 # ------------------------------------------------------------------------------
 # Handler Method
 # ------------------------------------------------------------------------------
@@ -101,6 +125,10 @@ func _on_update_agent_target_position() -> void:
 	#_CheckActiveTarget()
 	var target = _target.get_ref()
 	if target != null:
+		if target.is_in_group(DEAD_GROUP):
+			if _poi_timer == null:
+				_UpdatePOI()
+			return
 		_ClearPOITimer()
 		if target.is_in_group(REAPER_GROUP):
 			var r : float = colshape.shape.radius
@@ -141,3 +169,19 @@ func _on_detection_body_exited(body : Node2D) -> void:
 		
 	if body == _target.get_ref():
 		_target = weakref(null)
+
+
+func _on_KillZone_body_entered(body : Node2D) -> void:
+	if body.is_in_group(target_group):
+		target_caught.emit()
+
+
+func _on_drop_finder_area_entered(area : Area2D) -> void:
+	if area.is_in_group(DROPPLET_GROUP) and not _TargetChaseable():
+		if _visible_dropplets.find(area) < 0:
+			_visible_dropplets.append(area)
+
+func _on_drop_finder_area_exited(area : Area2D) -> void:
+	var idx : int = _visible_dropplets.find(area)
+	if idx >= 0:
+		_visible_dropplets.remove_at(idx)
